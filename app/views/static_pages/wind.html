@@ -1,33 +1,38 @@
 <html>
    <head>   
       <script>
-         function canvas() {
-         }
+
+         var title; 
+
          window.onload = function() {
-            var canvas = document.getElementById("wind"),
-            context = canvas.getContext("2d");
 
-            context.canvas.width  = window.innerWidth;
-            context.canvas.height = window.innerHeight;
+            var pictures = [];
 
+            function initPictures() {
 
-            function loadImages(sources, callback) {
-               var images = {};
-               var loadedImages = 0;
-               var numImages = 0;
-               // get num of sources
-               for(var src in sources) {
-                  numImages++;
+               pictures.push.apply(pictures, initPicturesByType(Flower, 1, "flower", 100, 100));
+               pictures.push.apply(pictures, initPicturesByType(Chicken, 1, "chicken", 80, 100));
+               pictures.push.apply(pictures, initPicturesByType(Heart, 1, "heart", 50, 70, function(){
+                  setInterval(function() {
+                     pictures.push.apply(pictures, initPicturesByType(Heart, 1, "heart", 50, 70));
+                  }, 1500);
+               }));
+               pictures.push.apply(pictures, initPicturesByType(TallFlower, 1, "tallFlower", 300, 225));
+               pictures.push.apply(pictures, initPicturesByType(FireEngine, 1, "fireEngine", 300, 225));
+               pictures.push.apply(pictures, initPicturesByType(Hina, 1, "hinaArmless", 300, 500));
+               pictures.push.apply(pictures, initPicturesByType(PeckingChicken, 1, "peckingChicken", 80, 80));
+               return pictures;
+            }
+
+            function initPicturesByType(constructor, num, image, width, height, additionals) {
+               var types = [];
+               for(var i = 0; i < num; i++) {
+                  types.push(new constructor(image, generatePosition(), generatePosition(), width, height, randomAngle())); 
                }
-               for(var src in sources) {
-                  images[src] = new Image();
-                  images[src].onload = function() {
-                     if(++loadedImages >= numImages) {
-                        callback(images);
-                     }
-                  };
-                  images[src].src = sources[src];
+               if(additionals) {
+                  additionals();
                }
+               return types;
             }
 
             var sources = {
@@ -41,303 +46,390 @@
                hinaArm: "./hina_arm.png",
                peckingChicken: "./pecking_chicken.png",
                peckingChickenPecking: "./pecking_chicken_pecking.png",
+               hinaAndJohnsWedding: "./hina_and_johns_wedding.png",
                hina2: "./hina_step_2.png"
             };
 
-            var counter = 0;
-            var imgs = {};
-            var pictures = {};
+            // random = canvas(sources, "title", window.innerWidth, window.innerHeight, initPictures());
 
-            loadImages(sources, function(images) {
-               imgs = images;
-               initPictures();
-            })
+            // title
 
-            function initPictures() {
-               initPicturesByType(Flower, 0, imgs.flower, 100, 100);
-               initPicturesByType(Chicken, 0, imgs.chicken, 80, 100);
-               initPicturesByType(Heart, 0, imgs.heart, 50, 70, function(){
-                  setInterval(function() {
-                     initPicturesByType(Heart, 1, imgs.heart, 50, 70);
-                  }, 1500);
-               });
-               initPicturesByType(TallFlower, 0, imgs.tallFlower, 300, 225);
-               initPicturesByType(FireEngine, 0, imgs.fireEngine, 300, 225);
-               initPicturesByType(Hina, 0, imgs.hinaArmless, 300, 500);
-               initPicturesByType(PeckingChicken, 1, imgs.peckingChicken, 80, 80);
-               setInterval(draw, 50);
+
+            random = canvas(sources, "title", window.innerWidth, window.innerHeight, initPictures());
+         }
+
+         function loadImages(sources, callback) {
+            var images = {};
+            var loadedImages = 0;
+            var numImages = 0;
+            // get num of sources
+            for(var src in sources) {
+               numImages++;
             }
-
-            function initPicturesByType(constructor, num, image, width, height, additionals) {
-               var types = [];
-               for(var i = 0; i < num; i++) {
-                  types.push(new constructor(image, generatePosition(), generatePosition(), width, height, randomAngle())); 
-               }
-               if(types.length > 0) {
-                  pictures[constructor.name] = types.concat(pictures[constructor.name] || []);
-               }
-               if(additionals) {
-                  additionals();
-               }
+            for(var src in sources) {
+               images[src] = new Image();
+               images[src].onload = function() {
+                  if(++loadedImages >= numImages) {
+                     callback(images);
+                  }
+               };
+               images[src].src = sources[src];
             }
+         }
 
-            function draw() {
-               canvas.width = canvas.width;
-               counter = counter + 0.05;
+         function randomAngle() {
+            return Math.random() * (Math.PI/6 - -1*Math.PI/6) + -1*Math.PI/6;
+         }
 
-               for(var type in pictures) {
-                  var picsByType = pictures[type];
-                  var i = picsByType.length
-                  while (i--) {
-                     var pic = picsByType[i];
-                     if(pic.cleanUp) {
-                        picsByType.splice(i, i+1);
-                     }
-                     else {
-                        pic.draw(); 
-                     }
+         function generatePosition() {
+            return 100 + Math.random() * 500 + Math.random() * 100;
+         }
+
+         var painter = function(contextWrapper, images) {
+
+            var cw = contextWrapper; 
+            var imgs = images; 
+
+            return {
+               drawPicture : function (pic) {
+                  cw.save();
+                  this.rotate(pic);
+                  this.opacitate(pic);
+                  this.paint(pic);
+                  cw.restore();
+               },
+
+               paint : function(pic) {
+                  cw.drawImage(imgs[pic.image], pic.dpx(), pic.dpy(), pic.width, pic.height);
+               },
+
+               rotate : function(pic) {
+                  if(typeof pic.angle != 'undefined') {
+                     cw.translate(pic.pivotX(), pic.pivotY());
+                     cw.rotate(pic.angle);
+                  }
+               },
+
+               opacitate : function(pic) {
+                  if(typeof pic.opacity != 'undefined') {
+                     cw.opacitate(pic.opacity);
                   }
                }
-            }
+            };
+         }
 
-            function Picture(image, x, y, width, height, angle) {
+         var contextWrapper = function(cxt) {
+
+            var context = cxt;
+
+            return { 
+
+               opacitate : function(opacity) {
+                  context.globalAlpha = opacity;
+               },
+
+               rotate : function(radians) {
+                  context.rotate(radians);
+               },
+
+               translate : function(x, y) {
+                  context.translate(x, y);
+               },
+
+               save : function() {
+                  context.save();
+               },
+
+               drawImage : function(image, x, y, width, height) {
+                  context.drawImage(image, x, y, width, height);
+               },
+
+               restore : function() {
+                  context.restore();
+               }
+            }
+         };
+
+         var Pictures = Class.extend({
+            init: function(image, x, y, width, height, angle){
                this.image = image;
                this.x = x;
                this.y = y;
                this.width = width;
-               this.height= height;
+               this.height = height;
                this.angle = angle;
 
                this.cleanUp = false;
                this.dy = 0;
                this.dx = 0;
+               this.counter = 0;
+            },
+            dance: function(){
+               return this.dancing;
             }
-            Picture.prototype.pivotX = function() {
-               return this.x+(this.width/2);
-            }
-            Picture.prototype.pivotY = function() {
-               return this.y+(this.height);
-            }
-            Picture.prototype.dpx = function() {
-               return 0-(this.width/2) + this.dx;
-            }
-            Picture.prototype.dpy = function() {
-               return 0-this.height + this.dy;
-            }
+         });
 
-            function Hina(image, x, y, width, height, angle){
-               Picture.call(this, image, x, y, width, height, angle);
-               this.angle = 0;
-               this.x = 100;
-               this.y = 100;
-               this.arm1 = new Arm(imgs.hinaArm, this.x+75, this.y+105, 170, 110, 0);
-               this.arm2 = new Arm(imgs.hinaArm, this.x+75, this.y+105, 170, 110, 0);
-               this.hina1 = imgs.hinaArmless; 
-               this.hina2 = imgs.hina2; 
-               this.previousDy = this.dy;
-            };
-            Hina.prototype = Object.create(Picture.prototype);
-            Hina.prototype.constructor = Hina;
-            Hina.prototype.draw = function() {
-               this.dx = this.arm1.dx = this.arm2.dx = counter*100;
-               this.dy = this.arm1.dy = this.arm2.dy = Math.sin(counter*4)*50;
-               this.arm1.angle = 0.5 + Math.sin(counter*2)/2; 
-               this.arm2.angle = 0.5 + Math.sin(counter*2)/4; 
-               this.previousAngle = this.angle;
-               if(this.previousDy > this.dy) {
-                  this.image = this.hina1;
+         function Picture(image, x, y, width, height, angle) {
+          }
+         Picture.prototype.pivotX = function() {
+            return this.x+(this.width/2);
+         }
+         Picture.prototype.pivotY = function() {
+            return this.y+(this.height);
+         }
+         Picture.prototype.dpx = function() {
+            return 0-(this.width/2) + this.dx;
+         }
+         Picture.prototype.dpy = function() {
+            return 0-this.height + this.dy;
+         }
+
+         function Hina(image, x, y, width, height, angle){
+            Picture.call(this, image, x, y, width, height, angle);
+            this.angle = 0;
+            this.x = 100;
+            this.y = 100;
+            this.arm1 = new Arm("hinaArm", this.x+75, this.y+105, 170, 110, 0);
+            this.arm2 = new Arm("hinaArm", this.x+75, this.y+105, 170, 110, 0);
+            this.hina1 = "hinaArmless"; 
+            this.hina2 = "hina2"; 
+            this.previousDy = this.dy;
+         };
+         Hina.prototype = Object.create(Picture.prototype);
+         Hina.prototype.constructor = Hina;
+         Hina.prototype.draw = function(painter) {
+            this.counter = this.counter + 0.05;
+            this.dx = this.arm1.dx = this.arm2.dx = this.counter*100;
+            this.dy = this.arm1.dy = this.arm2.dy = Math.sin(this.counter*4)*50;
+            this.arm1.angle = 0.5 + Math.sin(this.counter*2)/2; 
+            this.arm2.angle = 0.5 + Math.sin(this.counter*2)/4; 
+            this.previousAngle = this.angle;
+            if(this.previousDy > this.dy) {
+               this.image = this.hina1;
+            }
+            else {
+               this.image = this.hina2;
+            }
+            painter.drawPicture(this);
+            painter.drawPicture(this.arm2);
+            painter.drawPicture(this);
+            painter.drawPicture(this.arm1);
+         }
+
+         function Arm(image, x, y, width, height, angle){
+            Picture.call(this, image, x, y, width, height, angle);
+         };
+         Arm.prototype = Object.create(Picture.prototype);
+         Arm.prototype.constructor = Arm;
+         Arm.prototype.pivotX = function() {
+            return this.x + (this.width/10) + this.dx;
+         }
+         Arm.prototype.pivotY = function() {
+            return this.y + (this.height/3) + this.dy;
+         }
+         Arm.prototype.dpx = function() {
+            return (0 - (this.width/10));
+         }
+         Arm.prototype.dpy = function() {
+            return (0 - (this.height/3));
+         }
+
+         function FireEngine(image, x, y, width, height, angle){
+            Picture.call(this, image, x, y, width, height, angle);
+            this.angle = 0;
+         };
+         FireEngine.prototype = Object.create(Picture.prototype);
+         FireEngine.prototype.constructor = FireEngine;
+         FireEngine.prototype.draw = function(painter) {
+            this.counter = this.counter + 0.05;
+            this.dx = -this.counter*50;
+            this.dy = Math.sin(this.counter*200);
+            painter.drawPicture(this);
+         }
+
+         function TallFlower(image, x, y, width, height, angle){
+            Picture.call(this, image, x, y, width, height, angle);
+            this.tallFlower1 = this.image; 
+            this.tallFlower2 = "tallFlowerBlown"; 
+            this.previousAngle = this.angle;
+         };
+         TallFlower.prototype = Object.create(Picture.prototype);
+         TallFlower.prototype.constructor = TallFlower;
+         TallFlower.prototype.draw = function(painter) {
+            // height of bounce
+            this.counter = this.counter + 0.05;
+            this.previousAngle = this.angle;
+            this.angle = Math.sin(this.counter)/10; 
+            if(this.previousAngle > this.angle) {
+               this.image = this.tallFlower1;
+            }
+            else {
+               this.image = this.tallFlower2;
+            }
+            painter.drawPicture(this);
+         }
+
+         function Flower(image, x, y, width, height, angle){
+            Picture.call(this, image, x, y, width, height, angle);
+         };
+         Flower.prototype = Object.create(Picture.prototype);
+         Flower.prototype.constructor = Flower;
+         Flower.prototype.draw = function(painter) {
+            this.counter = this.counter + 0.05;
+            this.dx = Math.sin(this.counter*2)*25;
+            painter.drawPicture(this);
+         }
+
+         function Chicken(image, x, y, width, height, angle){
+            Picture.call(this, image, x, y, width, height, angle);
+         };
+         Chicken.prototype = Object.create(Picture.prototype);
+         Chicken.prototype.constructor = Chicken;
+         Chicken.prototype.draw = function(painter) {
+            this.counter = this.counter + 0.05;
+            // speed of bounce
+            var point = Math.sin(this.counter*15);
+            // height of bounce
+            this.dy = point*10;
+            if(point < -0.99) {
+               this.angle = randomAngle();
+            }
+            painter.drawPicture(this);
+         }
+
+         function PeckingChicken(image, x, y, width, height, angle){
+            Picture.call(this, image, x, y, width, height, angle);
+            this.chicken1 = "peckingChicken";
+            this.chicken2 = "peckingChickenPecking";
+            this.angle = 0;
+         };
+         PeckingChicken.prototype = Object.create(Picture.prototype);
+         PeckingChicken.prototype.constructor = PeckingChicken;
+         PeckingChicken.prototype.draw = function(painter) {
+            this.counter = this.counter + 0.05;
+            if((Math.round(this.counter*10) / 10) % 3 == 0) {
+               this.image = this.chicken2;
+            }
+            else {
+               this.image = this.chicken1;
+            }
+            painter.drawPicture(this);
+         }
+
+         function Heart(image, x, y, width, height, angle){
+            Picture.call(this, image, x, y, width, height, angle);
+            this.opacity = 1.0;
+         };
+         Heart.prototype = Object.create(Picture.prototype);
+         Heart.prototype.constructor = Heart;
+         Heart.prototype.draw = function(painter) {
+            this.dy = this.dy + -5;
+            if((this.y + this.dy) < 300) {
+               if(this.opacity > 0.05) {
+                  this.opacity = this.opacity - 0.05;
                }
                else {
-                  this.image = this.hina2;
+                  this.opacity = 0;
+                  this.cleanUp = true;
                }
-               drawPicture(this);
-               drawPicture(this.arm2);
-               drawPicture(this);
-               drawPicture(this.arm1);
             }
+            painter.drawPicture(this);
+         }
 
-            function Arm(image, x, y, width, height, angle){
-               Picture.call(this, image, x, y, width, height, angle);
-            };
-            Arm.prototype = Object.create(Picture.prototype);
-            Arm.prototype.constructor = Arm;
-            Arm.prototype.pivotX = function() {
-               return this.x + (this.width/10) + this.dx;
-            }
-            Arm.prototype.pivotY = function() {
-               return this.y + (this.height/3) + this.dy;
-            }
-            Arm.prototype.dpx = function() {
-               return (0 - (this.width/10));
-            }
-            Arm.prototype.dpy = function() {
-               return (0 - (this.height/3));
-            }
+         function canvas(sources, canvasId, width, height, pictures) {
+            var canvas = document.getElementById(canvasId),
+            context = canvas.getContext("2d");
 
-            function FireEngine(image, x, y, width, height, angle){
-               Picture.call(this, image, x, y, width, height, angle);
-               this.angle = 0;
-            };
-            FireEngine.prototype = Object.create(Picture.prototype);
-            FireEngine.prototype.constructor = FireEngine;
-            FireEngine.prototype.draw = function() {
-               this.dx = -counter*50;
-               this.dy = Math.sin(counter*200);
-               drawPicture(this);
-            }
+            context.canvas.width  = width;
+            context.canvas.height = height;
 
-            function TallFlower(image, x, y, width, height, angle){
-               Picture.call(this, image, x, y, width, height, angle);
-               this.tallFlower1 = this.image; 
-               this.tallFlower2 = imgs.tallFlowerBlown; 
-               this.previousAngle = this.angle;
-            };
-            TallFlower.prototype = Object.create(Picture.prototype);
-            TallFlower.prototype.constructor = TallFlower;
-            TallFlower.prototype.draw = function() {
-               // height of bounce
-               this.previousAngle = this.angle;
-               this.angle = Math.sin(counter)/6; 
-               if(this.previousAngle > this.angle) {
-                  this.image = this.tallFlower1;
-               }
-               else {
-                  this.image = this.tallFlower2;
-               }
-               drawPicture(this);
-            }
+            var pictures = pictures;
+            var imgs = {};
+            var p;
 
-            function Flower(image, x, y, width, height, angle){
-               Picture.call(this, image, x, y, width, height, angle);
-            };
-            Flower.prototype = Object.create(Picture.prototype);
-            Flower.prototype.constructor = Flower;
-            Flower.prototype.draw = function() {
-               this.dx = Math.sin(counter*2)*25;
-               drawPicture(this);
-            }
+            var cw = contextWrapper(context);
 
-            function Chicken(image, x, y, width, height, angle){
-               Picture.call(this, image, x, y, width, height, angle);
-            };
-            Chicken.prototype = Object.create(Picture.prototype);
-            Chicken.prototype.constructor = Chicken;
-            Chicken.prototype.draw = function() {
-               // speed of bounce
-               var point = Math.sin(counter*15);
-               // height of bounce
-               this.dy = point*10;
-               if(point < -0.99) {
-                  this.angle = randomAngle();
-               }
-               drawPicture(this);
-            }
+            loadImages(sources, function(images) {
+               imgs = images;
+               p = painter(cw, imgs);
+               setInterval(draw, 50);
+            })
 
-            function PeckingChicken(image, x, y, width, height, angle){
-               Picture.call(this, image, x, y, width, height, angle);
-               this.chicken1 = imgs.peckingChicken;
-               this.chicken2 = imgs.peckingChickenPecking;
-               this.angle = 0;
-            };
-            PeckingChicken.prototype = Object.create(Picture.prototype);
-            PeckingChicken.prototype.constructor = PeckingChicken;
-            PeckingChicken.prototype.draw = function() {
-               if((Math.round(counter*10) / 10) % 3 == 0) {
-                  this.image = this.chicken2;
-               }
-               else {
-                  this.image = this.chicken1;
-               }
-               drawPicture(this);
-            }
 
-            function Heart(image, x, y, width, height, angle){
-               Picture.call(this, image, x, y, width, height, angle);
-               this.opacity = 1.0;
-            };
-            Heart.prototype = Object.create(Picture.prototype);
-            Heart.prototype.constructor = Heart;
-            Heart.prototype.draw = function() {
-               this.dy = this.dy + -5;
-               if((this.y + this.dy) < 300) {
-                  if(this.opacity > 0.05) {
-                     this.opacity = this.opacity - 0.05;
+            function draw() {
+               canvas.width = canvas.width;
+
+               var i = pictures.length
+               while (i--) {
+                  var pic = pictures[i];
+                  if(pic.cleanUp) {
+                     pictures.splice(i, i+1);
                   }
                   else {
-                     this.opacity = 0;
-                     this.cleanUp = true;
+                     pic.draw(p); 
                   }
                }
-               drawPicture(this);
             }
-
-            function drawPicture(pic) {
-               cw.save();
-               rotate(pic);
-               opacitate(pic);
-               paint(pic);
-               cw.restore();
-            }
-
-            function paint(pic) {
-               cw.drawImage(pic.image, pic.dpx(), pic.dpy(), pic.width, pic.height);
-            }
-
-            function rotate(pic) {
-               if(typeof pic.angle != 'undefined') {
-                  cw.translate(pic.pivotX(), pic.pivotY());
-                  cw.rotate(pic.angle);
-               }
-            }
-
-            function opacitate(pic) {
-               if(typeof pic.opacity != 'undefined') {
-                  cw.opacitate(pic.opacity);
-               }
-            }
-
-            function randomAngle() {
-               return Math.random() * (Math.PI/6 - -1*Math.PI/6) + -1*Math.PI/6;
-            }
-
-            function generatePosition() {
-               return 100 + Math.random() * 500 + Math.random() * 100;
-            }
-
-            var cw = (function(cxt) {
-
-               var context = cxt;
-
-               return { 
-
-                  opacitate : function(opacity) {
-                     context.globalAlpha = opacity;
-                  },
-
-                  rotate : function(radians) {
-                     context.rotate(radians);
-                  },
-
-                  translate : function(x, y) {
-                     context.translate(x, y);
-                  },
-
-                  save : function() {
-                     context.save();
-                  },
-
-                  drawImage : function(image, x, y, width, height) {
-                     context.drawImage(image, x, y, width, height);
-                  },
-
-                  restore : function() {
-                     context.restore();
-                  }
-               }
-            })(context);
          }
-      </script>
+         (function(){
+            var initializing = false, fnTest = /xyz/.test(function(){xyz;}) ? /\b_super\b/ : /.*/;
 
+            // The base Class implementation (does nothing)
+            this.Class = function(){};
+
+            // Create a new Class that inherits from this class
+            Class.extend = function(prop) {
+               var _super = this.prototype;
+
+               // Instantiate a base class (but only create the instance,
+               // don't run the init constructor)
+               initializing = true;
+               var prototype = new this();
+               initializing = false;
+
+               // Copy the properties over onto the new prototype
+               for (var name in prop) {
+                  // Check if we're overwriting an existing function
+                  prototype[name] = typeof prop[name] == "function" &&
+                  typeof _super[name] == "function" && fnTest.test(prop[name]) ?
+                  (function(name, fn){
+                     return function() {
+                        var tmp = this._super;
+
+                        // Add a new ._super() method that is the same method
+                        // but on the super-class
+                        this._super = _super[name];
+
+                        // The method only need to be bound temporarily, so we
+                        // remove it when we're done executing
+                        var ret = fn.apply(this, arguments);        
+                        this._super = tmp;
+
+                        return ret;
+                     };
+                  })(name, prop[name]) : prop[name];
+               }
+
+               // The dummy class constructor
+               function Class() {
+                  // All construction is actually done in the init method
+                  if ( !initializing && this.init )
+                  this.init.apply(this, arguments);
+               }
+
+               // Populate our constructed prototype object
+               Class.prototype = prototype;
+
+               // Enforce the constructor to be what we expect
+               Class.prototype.constructor = Class;
+
+               // And make this class extendable
+               Class.extend = arguments.callee;
+
+               return Class;
+            };
+         })()
+      </script>
    </head>
    <body>
       <canvas id="title">
