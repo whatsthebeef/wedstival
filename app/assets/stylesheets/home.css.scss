@@ -13,6 +13,13 @@ $column-left: 45%;
    display: block
 }
 
+@mixin hover-image-link($opacity) {
+   opacity: $opacity;
+   &:hover {
+      opacity: 1;
+   }
+}
+
 body {
    font-family: 'Lato', sans-serif;
    font-style: italic;
@@ -49,10 +56,7 @@ body {
       overflow:hidden;
       div {
          img {
-            opacity: 0.8;
-            &:hover {
-               opacity: 1;
-            }
+            @include hover-image-link(0.8);
          }
          padding-left:15%;
          float:left;
@@ -84,10 +88,10 @@ body {
 }
 
 #fire-engine-canvas {
-   padding-top: 1%;
+   padding-top: 2%;
 }
 
-#dancer-canvas {
+.background {
    position:absolute;
 }
 
@@ -119,3 +123,21 @@ img {
 #heart-sketch-canvas {
    @extend .center-canvas;
 }
+
+.form-element {
+   padding: 2% 0%;
+   label {
+      padding-right:1%;
+   }
+   input[type="text"] {
+      font-size: 1.1em;
+      padding-left: 2px;
+   }
+}
+
+input[type="image"] {
+   padding-top: 1%;
+   @include hover-image-link(0.5);
+   width: 200px;
+}
+

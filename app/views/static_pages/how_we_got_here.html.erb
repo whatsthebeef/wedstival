@@ -1,5 +1,4 @@
-<canvas id="dancer-canvas">
-</canvas>
+<canvas id="dancer-canvas" class="background"></canvas>
 <div class="overlay">
    <%= render partial: "shared/title" %>
    <%= render partial: "shared/menu" %>
@@ -14,30 +13,33 @@
 </div>
 <script type="text/javascript">
 
-   var about = function() {
-
-      var pictures = [];
+   initCanvas(function() {
 
       var sources = {
-         tallFlower : "./assets/tall_flower.png",
-         tallFlowerBlown : "./assets/tall_flower_blown.png",
-         hinaArmless: "./assets/hina_step_1.png",
-         hina2: "./assets/hina_step_2.png",
-         hinaArm: "./assets/hina_arm.png"
+         tallFlower : "/assets/tall_flower.png",
+         tallFlowerBlown : "/assets/tall_flower_blown.png",
+         flower: "/assets/flower.png",
+         hinaArmless: "/assets/hina_step_1.png",
+         hina2: "/assets/hina_step_2.png",
+         hinaArm: "/assets/hina_arm.png"
       };
 
       var flowerHeight = 150;
-      pictures = [new Hina(0, window.innerHeight-400, 300, 400, 0)];
+      var hina = new Hina(0, window.innerHeight-400, 300, 400, 0);
+      var pictures = [hina];
       pictures.push.apply(pictures, initPicturesByType(TallFlower, 100, 150, flowerHeight, 
       {minx:-100, miny:window.innerHeight-flowerHeight, maxy:window.innerHeight-flowerHeight}));
 
       // title
-      var dancer = canvas(sources, "dancer-canvas", window.innerWidth, window.innerHeight, pictures);
-   };
+      canvas(sources, "dancer-canvas", window.innerWidth, window.innerHeight, pictures);
+      window.setInterval(function() {
+         pictures.push(new FlyingFlower(hina.absX()+hina.width/2, 
+            (window.innerHeight-3*flowerHeight/4), 40, 40, -0.11));
+         pictures.push(new FlyingFlower(hina.absX()+hina.width/2, 
+            (window.innerHeight-3*flowerHeight/4), 40, 40, 0.4));
+      }, 5000);
+   });
 
-   window.addEventListener ? 
-   window.addEventListener("load", about, false) : 
-   window.attachEvent && window.attachEvent("onload", about);
 
 </script>
 

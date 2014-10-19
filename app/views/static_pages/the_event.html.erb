@@ -33,16 +33,22 @@
 
       var sources = {
          sketchHeartless: "/assets/sketch_heartless.png",
+         fireStation: "/assets/fire_station.png",
+         roofChicken: "/assets/roof_chicken.png",
+         roofChickenDown: "/assets/roof_chicken_left.png",
          heart: "/assets/heart.png"
       };
 
       var pictures = []; 
       var hx = [{x:25, y:250}, {x:50, y:225}, {x:75, y:180}, 
                   {x:325, y:170}, {x:375, y:180}, {x:320, z:250}];
-      var pictures = [new Pictures("sketchHeartless", 0, 100, 500, 500, 0)]; 
+      var pictures = [
+            new Pictures("sketchHeartless", 0, 100, 500, 500, 0),
+            new FireStation(135, 90, 170, 150, -0.15)
+      ]; 
       window.setInterval(function(){
          var h = hx[Math.floor(Math.random()*hx.length)];
-         pictures.push(new MoveAndFade("heart", h.x, h.y, 20, 20, generatePosition(0.25, -0.25)));
+         pictures.push(new Heart(h.x, h.y, 20, 20, generatePosition(0.25, -0.25)));
       }, 400);
 
       canvas(sources, "heart-sketch-canvas", 500, 700, pictures);

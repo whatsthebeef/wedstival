@@ -43,6 +43,10 @@ function generatePosition(min, max) {
    return Math.random() * (max - min) + min;
 }
 
+function randomElement(array) {
+   return array[Math.floor(Math.random()*array.length)]
+}
+
 var painter = function(contextWrapper, images) {
 
    var cw = contextWrapper; 
@@ -51,6 +55,7 @@ var painter = function(contextWrapper, images) {
    return {
       drawPicture : function (pic) {
          cw.save();
+         cw.translate(pic.pivotX(), pic.pivotY());
          this.rotate(pic);
          this.opacitate(pic);
          this.paint(pic);
@@ -63,7 +68,6 @@ var painter = function(contextWrapper, images) {
 
       rotate : function(pic) {
          if(typeof pic.angle != 'undefined') {
-            cw.translate(pic.pivotX(), pic.pivotY());
             cw.rotate(pic.angle);
          }
       },
@@ -108,7 +112,7 @@ var contextWrapper = function(cxt) {
    }
 };
 
-function canvas(sources, canvasId, width, height, pictures) {
+function canvas(sources, canvasId, width, height, pictures, callback) {
    var canvas = document.getElementById(canvasId),
    context = canvas.getContext("2d");
 
@@ -127,7 +131,6 @@ function canvas(sources, canvasId, width, height, pictures) {
       setInterval(draw, 50);
    })
 
-
    function draw() {
       canvas.width = canvas.width;
 
@@ -140,6 +143,9 @@ function canvas(sources, canvasId, width, height, pictures) {
          else {
             pic.draw(p); 
             i++;
+         }
+         if (callback) {
+            callback();
          }
       }
    }
@@ -232,6 +238,12 @@ var Pictures = Class.extend({
    dpy : function() {
       return 0-this.height + this.dy;
    },
+   absX : function() {
+      return this.x + this.dx;
+   },
+   absY : function() {
+      return this.y + this.dy;
+   },
    draw : function(painter) {
       painter.drawPicture(this);
    } 
@@ -287,22 +299,29 @@ var Arm = Pictures.extend({
 
 var FireEngine = Pictures.extend({
    init : function(x, y, width, height, velocity) {
-      this._super("fireEngine", x, y, width, height, 0);
+      this._super("fireEngineLeft", x, y, width, height, 0);
       this.fireEngineLeft = this.image;
+      this.wheelsLeft = "wheelsLeft";
       this.fireEngineRight = "fireEngineRight";
+      this.wheelsRight = "wheelsRight";
       this.counter = 0;
+      this.wheels = new Pictures(this.wheelsLeft, x, y, width, height);
       this.velocity = velocity;
    },
    draw : function(painter) {
-      this.dx = ++this.counter * this.velocity; 
+      this.counter++;
+      this.dx = this.wheels.dx = this.velocity ? (this.counter*this.velocity) : this.dx; 
       if(this.dx < 0) {
          this.image = this.fireEngineLeft;
+         this.wheels.image = this.wheelsLeft;
       }
       else {
          this.image = this.fireEngineRight;
+         this.wheels.image = this.wheelsRight;
       }
       this.dy = Math.sin(this.counter*200);
       painter.drawPicture(this);
+      painter.drawPicture(this.wheels);
    }
 });
 
@@ -376,14 +395,14 @@ var PeckingChicken = Pictures.extend({
    }
 });
 
-var MoveAndFade = Pictures.extend({
-   init : function(image, x, y, width, height, angle) {
-      this._super(image, x, y, width, height, angle);
+var Heart = Pictures.extend({
+   init : function(x, y, width, height, angle) {
+      this._super("heart", x, y, width, height, angle);
       this.opacity = 1.0;
    },
    draw : function(painter) {
       this.dy = this.dy + -5;
-      if((this.y + this.dy) < 300) {
+      if(this.absY() < 300) {
          if(this.opacity > 0.05) {
             this.opacity = this.opacity - 0.025;
          }
@@ -395,5 +414,99 @@ var MoveAndFade = Pictures.extend({
       painter.drawPicture(this);
    }
 });
+
+var Note = Pictures.extend({
+   init : function(x, y, width, height, probSecondNote) {
+      this.images = [{i:"singleNote", w:width}, {i:"doubleNote", w:width*4}]; 
+      var firstNote = randomElement(this.images);
+      this.image = firstNote.i;
+      this.width = firstNote.w;
+      this.probSecondNote = probSecondNote || 0.5;
+      this._super(this.image, x, y, this.width, height);
+      if(Math.random() < this.probSecondNote) {
+         this.secondNote = new Note(this.x+(this.width*1.5), this.y, 
+            width, this.height, this.probSecondNote - 0.25);
+      }
+      this.opacity = 1.0;
+      this.showing = false;
+   },
+   draw : function(painter) {
+      this.dy = this.dy + -5;
+      this.dx = this.dx + 5;
+      if((this.absX()) > 2*window.innerWidth/3) {
+         if(this.opacity > 0.05) {
+            this.opacity = this.opacity - 0.025;
+         }
+         else {
+            this.opacity = 0;
+            this.cleanUp = true;
+         }
+      }
+      /*
+      if((window.innerWidth/2 < this.absX()) && !this.showing) {
+        this.opacity = this.opacity + 0.05;
+      }
+      if(this.opacity >= 1) {
+         this.showing = true;
+      }
+      */
+      painter.drawPicture(this);
+      if(this.secondNote) {
+         this.secondNote.draw(painter);
+      }
+   }
+
+});
+
+var FireStation =  Pictures.extend({
+   init : function(x, y, width, height, angle) {
+      this._super("fireStation", x, y, width, height, angle);
+      this.roofChicken = new Pictures("roofChicken", this.x, 
+         this.y+(this.height/4), (this.width/8), (this.height/8)); 
+      this.reachedTop = false;
+      this.jump = 1;
+   },
+   draw : function(painter) {
+      if(this.roofChicken.absY() > (this.y+this.height/64) && !this.reachedTop) {
+         this.roofChicken.dy = this.roofChicken.dy + -1 + Math.sin(this.jump++);
+         this.roofChicken.dx = this.roofChicken.dx + 1;
+         this.roofChicken.image = "roofChicken";
+      }
+      else if(this.roofChicken.absY() < (this.y+this.height/5)) {
+         this.reachedTop = true;
+         this.roofChicken.dy = this.roofChicken.dy + 1 + Math.sin(this.jump++);
+         this.roofChicken.dx = this.roofChicken.dx + -1;
+         this.roofChicken.image = "roofChickenDown";
+      }
+      else {
+         this.reachedTop = false;
+      }
+      painter.drawPicture(this);
+      painter.drawPicture(this.roofChicken);
+   }
+
+});
+
+var FlyingFlower =  Pictures.extend({
+   init : function(x, y, width, height, angle) {
+      this._super("flower", x, y, width, height, angle);
+      this.counter = 0;
+      this.visible;
+   },
+   draw : function(painter) {
+      this.dx = this.counter*3;
+      this.dy = -1*Math.sin(this.counter++*0.1)*180;
+      if(this.absY() < window.innerHeight) {
+         painter.drawPicture(this);
+      }
+      else {
+         this.cleanUp = true;
+      }
+   }
+
+});
+
+
+
 
 

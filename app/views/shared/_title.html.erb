@@ -3,7 +3,7 @@
 </div>
 <script>
 
-   var title = function() {
+   initCanvas(function() {
 
       var pictures = [];
 
@@ -16,9 +16,9 @@
       };
 
       pictures = [
-      new TallFlower(0, 40, 200, 130, -Math.PI/18),
-      new Pictures("hinaAndJohnsWedding", 145, 100, 600, 100, 0),
-      new PeckingChicken(750, 120, 50, 60, 0)
+         new TallFlower(0, 40, 200, 130, -Math.PI/18),
+         new Pictures("hinaAndJohnsWedding", 145, 100, 600, 100, 0),
+         new PeckingChicken(750, 120, 50, 60, 0)
       ]
 
       // title
@@ -26,10 +26,7 @@
       titleCanvas.addEventListener('click', function() {
          window.location.href="/";
       }, false)
-   }
+   });
 
-   window.addEventListener ? 
-   window.addEventListener("load", title, false) : 
-   window.attachEvent && window.attachEvent("onload", title);
 </script>
 

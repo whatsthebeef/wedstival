@@ -1,28 +1,36 @@
-<%= render partial: "shared/title" %>
-<%= render partial: "shared/menu" %>
-<div id="description">
-   <p>
-   We need requests for the band and the DJ.
-   They’ll be too busy with the ceilidh to put on good tunes otherwise
-   </p>
-   <%= form_for @request do |f| %>
-      <% @request.errors.full_messages.each do |msg| %>
-         <p><%= msg %></p>
-      <% end %>
-      <%= f.label :song_title %>:
-      <%= f.text_field :song_title %><br />
-
-      <%= f.label :artist %>:
-      <%= f.text_field :artist %><br />
-
-      <%= recaptcha_tags display:{theme:"white"}%>
-      <%= f.submit %>
-   <% end %>
+<canvas id="music-canvas" class="background"></canvas>
+<div class="overlay">
+   <%= render partial: "shared/title" %>
+   <%= render partial: "shared/menu" %>
+   <div id="description">
+      <p>
+      We need requests for the band and the DJ.
+      They’ll be too busy with the ceilidh to put on good tunes otherwise
+      </p>
+      <div>
+         <% @request.errors.full_messages.each do |msg| %>
+            <p><%= msg %></p>
+         <% end %>
+         <div>
+            <%= form_for @request do |f| %>
+               <div class="form-element">
+                  <%= f.text_field :artist, placeholder:"Artist" %><br />
+               </div>
+               <div class="form-element">
+                  <%= f.text_field :song_title, placeholder:"Song title" %><br />
+               </div>
+               <div class="form-element">
+                  <%= recaptcha_tags display:{theme:"white"}%>
+               </div>
+               <div class="form-element">
+                  <%= image_submit_tag "send_request.png" %>
+               </div>
+            <% end %>
+         </div>
+      </div>
+   </div>
 </div>
-<div id="music">
-   <canvas id="music-canvas">
-   </canvas>
-</div>
+
 <script type="text/javascript">
 
    initCanvas(function() {
@@ -31,17 +39,25 @@
 
       var sources = {
          singleNote: "/assets/single_note.png",
-         doubleNote: "/assets/double_note.png"
+         doubleNote: "/assets/double_note.png",
+         hinaArmless: "/assets/hina_step_1.png",
+         hina2: "/assets/hina_step_2.png",
+         hinaArm: "/assets/hina_arm.png"
       };
 
       var pictures = []; 
-      var ns = [{y:100}, {y:150}];
-      window.setInterval(function(){
-         var n = ns[Math.floor(Math.random()*ns.length)];
-         pictures.push(new MoveAndFade("singleNote", 10, n.y, 20, 20, 7*Math.PI/8));
-      }, 400);
+      var nys = [window.innerWidth/2, window.innerWidth/2-200];
+      window.setInterval(function() {
+         pictures.push(new Note(randomElement(nys), window.innerHeight, 5, 20));
+      }, 1000);
 
-      canvas(sources, "music-canvas", 800, 500, pictures);
+      canvas(sources, "music-canvas", window.innerWidth, window.innerHeight, 
+      pictures);
+      window.setTimeout(function(){
+         var hinaWidth = 300;
+         var hina = new Hina(0-hinaWidth, window.innerHeight-400, hinaWidth, 400, 0);
+         pictures.push(hina);
+      }, 20000);
    });
 
 </script>

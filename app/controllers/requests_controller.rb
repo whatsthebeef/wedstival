@@ -6,7 +6,7 @@ class RequestsController < ApplicationController
 
    def create
       @request = Request.new(request_params)
-      if verify_recaptcha(:model => @request, :message => "Oh! It's error with reCAPTCHA!") && @request.save
+      if verify_recaptcha(model: @request, message: "You guessed the text wrong") && @request.save
          redirect_to new_request_path
       else 
          render "new"

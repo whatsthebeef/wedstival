@@ -40,29 +40,46 @@
    initCanvas(function() {
       var sources = {
          fireEngineRight: "/assets/fire_engine_right.png",
+         wheelsRight: "/assets/wheels_right.png",
+         fireEngineLeft: "/assets/fire_engine_left.png",
+         wheelsLeft: "/assets/wheels_left.png",
+         fireStation: "/assets/fire_station.png",
+         roofChicken: "/assets/roof_chicken.png",
+         roofChickenDown: "/assets/roof_chicken_left.png",
+         fireEngine: "/assets/fire_engine.png"
       };
 
-      fireEngine = new FireEngine(0, 0, 200, 200, 10); 
-      pictures = [fireEngine]; 
-      canvas(sources, "fire-engine-canvas", window.innerWidth, 200, pictures);
+      var fireEngine = new FireEngine(0, 0, 200, 200, 10); 
+      var fireStation = [new FireStation((window.innerWidth/2-150), 
+         0, 300, 300)];
+      var fec = canvas(sources, "fire-engine-canvas", window.innerWidth, 
+         200, [fireEngine], function(){
+            if(fireEngine.absX() > window.innerWidth && !fireEngine.cleanUp) {
+               fireEngine.cleanUp = true;
+               windUpCanvas(fec);
+            }
+      });
+      var fireEngineParking = new FireEngine(window.innerWidth, 120, 200, 200, -10);
+      var fsc = canvas(sources, "fire-station-canvas", window.innerWidth, 300, 
+         fireStation, function(){
+            if(fireEngineParking.absX() < (window.innerWidth/2 - fireEngine.width/2)) {
+               fireEngineParking.velocity = 0;
+            }
+      });
+
+      var windUpCanvas = function(canvas) {
+         if(canvas.height > 0) {
+            window.setTimeout(function(){
+               canvas.height--;
+               windUpCanvas(canvas);
+            }, 20);
+         }
+         else {
+            fireStation.push(fireEngineParking);
+         }
+      }
    });
 
-   window.setInterval(function(){
-      if(fireEngine.dx > window.innerWidth) {
-         var fireStation = function() {
-            var sources = {
-               fireEngine: "/assets/fire_engine.png",
-               fireStation: "/assets/fire_station.png"
-            };
 
-            pictures = [
-               new Pictures("fireStation", window.innerWidth/2-150, 0, 300, 300, 0),             new FireEngine(window.innerWidth, 90, 200, 200, -10)
-            ];
-            canvas(sources, "fire-station-canvas", window.innerWidth, 250, pictures);
-         }
-         fireStation();
-      };
-   }, 5000);
-   
 </script>
 <!-- <script src="https://maps.googleapis.com/maps/api/js"></script> -->
