@@ -1,0 +1,35 @@
+<div id="title">
+   <canvas id="title-canvas"></canvas>
+</div>
+<script>
+
+   var title = function() {
+
+      var pictures = [];
+
+      var sources = {
+         tallFlower : "/assets/tall_flower.png",
+         tallFlowerBlown : "/assets/tall_flower_blown.png",
+         peckingChicken: "/assets/pecking_chicken.png",
+         peckingChickenPecking: "/assets/pecking_chicken_pecking.png",
+         hinaAndJohnsWedding: "/assets/hina_and_johns_wedding.png"
+      };
+
+      pictures = [
+      new TallFlower(0, 40, 200, 130, -Math.PI/18),
+      new Pictures("hinaAndJohnsWedding", 145, 100, 600, 100, 0),
+      new PeckingChicken(750, 120, 50, 60, 0)
+      ]
+
+      // title
+      var titleCanvas = canvas(sources, "title-canvas", 940, 200, pictures);
+      titleCanvas.addEventListener('click', function() {
+         window.location.href="/";
+      }, false)
+   }
+
+   window.addEventListener ? 
+   window.addEventListener("load", title, false) : 
+   window.attachEvent && window.attachEvent("onload", title);
+</script>
+

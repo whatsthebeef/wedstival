@@ -1,0 +1,43 @@
+<canvas id="dancer-canvas">
+</canvas>
+<div class="overlay">
+   <%= render partial: "shared/title" %>
+   <%= render partial: "shared/menu" %>
+   <div id="description">
+      <p>
+      After nine months of traveling the full length of the UK every weekend, 
+      five years in Mexico and a move to Istanbul we are getting married.
+      Why? 
+      It’s about bloody time, that's why.
+      </p>
+   </div>
+</div>
+<script type="text/javascript">
+
+   var about = function() {
+
+      var pictures = [];
+
+      var sources = {
+         tallFlower : "./assets/tall_flower.png",
+         tallFlowerBlown : "./assets/tall_flower_blown.png",
+         hinaArmless: "./assets/hina_step_1.png",
+         hina2: "./assets/hina_step_2.png",
+         hinaArm: "./assets/hina_arm.png"
+      };
+
+      var flowerHeight = 150;
+      pictures = [new Hina(0, window.innerHeight-400, 300, 400, 0)];
+      pictures.push.apply(pictures, initPicturesByType(TallFlower, 100, 150, flowerHeight, 
+      {minx:-100, miny:window.innerHeight-flowerHeight, maxy:window.innerHeight-flowerHeight}));
+
+      // title
+      var dancer = canvas(sources, "dancer-canvas", window.innerWidth, window.innerHeight, pictures);
+   };
+
+   window.addEventListener ? 
+   window.addEventListener("load", about, false) : 
+   window.attachEvent && window.attachEvent("onload", about);
+
+</script>
+

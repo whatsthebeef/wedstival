@@ -9,38 +9,5 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
- *= require_tree .
+ *= require home
  */
-
-body {
-   font-family: 'Lato', sans-serif;
-   font-style: italic;
-}
-
-#description {
-   padding: 1% 0 0 2%;
-   width: 40%;
-   position: fixed;
-   top: 0;
-   left: 0;
-}
-
-#title {
-   position: fixed;
-   top: 0;
-   left: 0;
-}
-
-#sketch {
-   position: fixed;
-   bottom: 0;
-   right: 0;
-   height:60%;
-   width:35%;
-   padding: 0 2% 2% 0;
-} 
-
-img {
-   height:100%;
-   width:100%;
-}

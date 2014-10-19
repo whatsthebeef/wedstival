@@ -1,0 +1,48 @@
+<%= render partial: "shared/title" %>
+<%= render partial: "shared/menu" %>
+<div id="description">
+   <p>
+   We need requests for the band and the DJ.
+   They’ll be too busy with the ceilidh to put on good tunes otherwise
+   </p>
+   <%= form_for @request do |f| %>
+      <% @request.errors.full_messages.each do |msg| %>
+         <p><%= msg %></p>
+      <% end %>
+      <%= f.label :song_title %>:
+      <%= f.text_field :song_title %><br />
+
+      <%= f.label :artist %>:
+      <%= f.text_field :artist %><br />
+
+      <%= recaptcha_tags display:{theme:"white"}%>
+      <%= f.submit %>
+   <% end %>
+</div>
+<div id="music">
+   <canvas id="music-canvas">
+   </canvas>
+</div>
+<script type="text/javascript">
+
+   initCanvas(function() {
+
+      var pictures = [];
+
+      var sources = {
+         singleNote: "/assets/single_note.png",
+         doubleNote: "/assets/double_note.png"
+      };
+
+      var pictures = []; 
+      var ns = [{y:100}, {y:150}];
+      window.setInterval(function(){
+         var n = ns[Math.floor(Math.random()*ns.length)];
+         pictures.push(new MoveAndFade("singleNote", 10, n.y, 20, 20, 7*Math.PI/8));
+      }, 400);
+
+      canvas(sources, "music-canvas", 800, 500, pictures);
+   });
+
+</script>
+

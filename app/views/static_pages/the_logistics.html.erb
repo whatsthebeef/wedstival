@@ -1,0 +1,68 @@
+<%= render partial: "shared/title" %>
+<%= render partial: "shared/menu" %>
+<div id="fire-engine">
+   <canvas id="fire-engine-canvas">
+   </canvas>
+</div>
+<div id="description">
+   <p>
+   Email - Our email address is <a href="http://www.google.com/recaptcha/mailhide/d?k=01m5KaPKUB722l6ZnmA3cRXw==&amp;c=pOzs3iJEI60VwyYHWxiCYg==" onclick="window.open('http://www.google.com/recaptcha/mailhide/d?k\07501m5KaPKUB722l6ZnmA3cRXw\75\75\46c\75pOzs3iJEI60VwyYHWxiCYg\75\075', '', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=500,height=300'); return false;" title="Reveal this e-mail address">j...</a>@zode64.com, feel free to send us a message about anything.  We don't have many friends so please talk to us.
+   </p>
+   <p>
+   Address - The address of the event is <%= link_to "Larchfield house, Church Street, Barkston Ash, Leeds, UK, LS24 9PJ (you can click here)", "https://www.google.com/maps/place/Larchfield+House,+Church+St,+Barkston+Ash,+Tadcaster,+North+Yorkshire+LS24+9PJ,+UK/@53.8190678,-1.2547195,17z/data=!3m1!4b1!4m2!3m1!1s0x4879474d1d751c89:0x284963a9e971207e?hl=en-419", target:"_blank" %>. For those from around us, yes, it's my parent's house.
+   <!-- <div id="map_canvas_larchfield" class="map_canvas"></div> -->
+   </p>
+   <p>
+   Parking - You can park at the side of the road outside the address 
+   <%= link_to "here.", "https://www.google.com/maps/@53.819317,-1.2541986,3a,75y,89.53t/data=!3m4!1e1!3m2!1sab3sl7iE9yh9HbTWbdNbnw!2e0" %> 
+   </p>
+   <p>
+   Accomodation - If you need a bed you can try the places pinned on the map below, do a <%= link_to "search", "https://www.google.com/maps/search/bed+and+breakfast/@53.8190678,-1.2547195,13z/data=!3m1!4b1!4m5!2m4!3m3!1sbed+and+breakfast!2sLarchfield+House,+Church+St,+Barkston+Ash,+Tadcaster,+North+Yorkshire+LS24+9PJ,+Reino+Unido!3s0x4879474d1d751c89:0x284963a9e971207e?hl=en-419" %> 
+   or if you are desperate you can sleep in the marquee.
+   </p>
+   <p>
+   <!-- <div id="map_canvas_hotels" class="map_canvas"></div> -->
+   </p>
+   <p>
+   Taxi numbers - So you can get to your bed -
+   0113 243 9275
+   </p>
+   <p>
+   Gifts - We’ll just be happy if you make it.
+   There will be a card box on the day if you feel the need to fund our traveling lifestyle.
+   </p>
+</div>
+<canvas id="fire-station-canvas">
+</canvas>
+<script type="text/javascript">
+
+   var fireEngine;
+   initCanvas(function() {
+      var sources = {
+         fireEngineRight: "/assets/fire_engine_right.png",
+      };
+
+      fireEngine = new FireEngine(0, 0, 200, 200, 10); 
+      pictures = [fireEngine]; 
+      canvas(sources, "fire-engine-canvas", window.innerWidth, 200, pictures);
+   });
+
+   window.setInterval(function(){
+      if(fireEngine.dx > window.innerWidth) {
+         var fireStation = function() {
+            var sources = {
+               fireEngine: "/assets/fire_engine.png",
+               fireStation: "/assets/fire_station.png"
+            };
+
+            pictures = [
+               new Pictures("fireStation", window.innerWidth/2-150, 0, 300, 300, 0),             new FireEngine(window.innerWidth, 90, 200, 200, -10)
+            ];
+            canvas(sources, "fire-station-canvas", window.innerWidth, 250, pictures);
+         }
+         fireStation();
+      };
+   }, 5000);
+   
+</script>
+<!-- <script src="https://maps.googleapis.com/maps/api/js"></script> -->

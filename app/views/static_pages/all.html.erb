@@ -1,0 +1,59 @@
+<html>
+   <head>   
+      <script>
+
+         var title; 
+
+         var title; 
+
+         window.onload = function() {
+
+            var pictures = [];
+
+            function initPictures() {
+
+               pictures.push.apply(pictures, initPicturesByType(Flower, 1, 100, 100));
+               pictures.push.apply(pictures, initPicturesByType(Chicken, 1, 80, 100));
+               pictures.push.apply(pictures, initPicturesByType(Heart, 1, 50, 70, function(){
+                  setInterval(function() {
+                     pictures.push.apply(pictures, initPicturesByType(Heart, 1, 50, 70));
+                  }, 1500);
+               }));
+               pictures.push.apply(pictures, initPicturesByType(TallFlower, 1, 300, 225));
+               pictures.push.apply(pictures, initPicturesByType(FireEngine, 1, 300, 225));
+               pictures.push.apply(pictures, initPicturesByType(Hina, 1, 300, 500));
+               pictures.push.apply(pictures, initPicturesByType(PeckingChicken, 1, 80, 80));
+               return pictures;
+            }
+
+            var sources = {
+               flower : "./assets/flower.png",
+               tallFlower : "./assets/tall_flower.png",
+               tallFlowerBlown : "./assets/tall_flower_blown.png",
+               chicken : "./assets/chicken.png",
+               heart: "./assets/heart.png",
+               fireEngine: "./assets/fire_engine.png",
+               hinaArmless: "./assets/hina_step_1.png",
+               hina2: "./assets/hina_step_2.png",
+               hinaArm: "./assets/hina_arm.png",
+               peckingChicken: "./assets/pecking_chicken.png",
+               peckingChickenPecking: "./assets/pecking_chicken_pecking.png",
+               hinaAndJohnsWedding: "./assets/hina_and_johns_wedding.png",
+            };
+
+            // random = canvas(sources, "title", window.innerWidth, window.innerHeight, initPictures());
+
+            // title
+
+            random = canvas(sources, "title", window.innerWidth, window.innerHeight, initPictures());
+         }
+
+      </script>
+   </head>
+   <body>
+      <canvas id="title">
+      </canvas>
+      <canvas id="wind">
+      </canvas>
+   </body>
+</html>

@@ -55,9 +55,13 @@ Wedstival::Application.routes.draw do
   #   end
    
    # You can have the root of your site routed with "root"
-   root 'static_pages#home'
+   root 'static_pages#whats_all_this'
 
    # Example of regular route:
-   get '/home' => 'static_pages#home'
+   get '/whats_all_this' => 'static_pages#whats_all_this', as: :whats_all_this
+   get '/how_we_got_here' => 'static_pages#how_we_got_here', as: :how_we_got_here 
+   get '/the_logistics' => 'static_pages#the_logistics', as: :the_logistics 
+   get '/the_event' => 'static_pages#the_event', as: :the_event 
 
+   resources :requests
 end
