@@ -38,11 +38,14 @@
       var pictures = [];
 
       var sources = {
+         hinaRightStep1: "/assets/hina_right_step_1.png",
+         hinaRightStep2: "/assets/hina_right_step_2.png",
+         hinaLeftStep1: "/assets/hina_left_step_1.png",
+         hinaLeftStep2: "/assets/hina_left_step_2.png",
+         hinaArmRight: "/assets/hina_arm_right.png",
+         hinaArmLeft: "/assets/hina_arm_left.png",
          singleNote: "/assets/single_note.png",
-         doubleNote: "/assets/double_note.png",
-         hinaArmless: "/assets/hina_step_1.png",
-         hina2: "/assets/hina_step_2.png",
-         hinaArm: "/assets/hina_arm.png"
+         doubleNote: "/assets/double_note.png"
       };
 
       var pictures = []; 
@@ -54,10 +57,11 @@
       canvas(sources, "music-canvas", window.innerWidth, window.innerHeight, 
       pictures);
       window.setTimeout(function(){
-         var hinaWidth = 300;
-         var hina = new Hina(0-hinaWidth, window.innerHeight-400, hinaWidth, 400, 0);
+         var hinaWidth = 150;
+         var hinaHeight = 200;
+         var hina = new Hina(window.innerWidth+hinaWidth, window.innerHeight-hinaHeight*1.3, hinaWidth, hinaHeight, -1);
          pictures.push(hina);
-      }, 20000);
+      }, 10000);
    });
 
 </script>

@@ -250,47 +250,68 @@ var Pictures = Class.extend({
 });
 
 var Hina = Pictures.extend({
-   init : function(x, y, width, height, angle) {
-      this._super("hinaArmless", x, y, width, height, angle);
-      this.hina1 = this.image; 
-      this.hina2 = "hina2"; 
-      this.angle = 0;
-      this.arm1 = new Arm(x+width/4, y+height/5, width/2, height/4, 0);
-      this.arm2 = new Arm(x+width/4, y+height/5, width/2, height/4, 0);
+   init : function(x, y, width, height, velocity) {
+      this._super(null, x, y, width, height);
+      this.velocity = velocity;
+      this.counter = 0;
+      this.armRight1 = this.armGenerator(true, 4);
+      this.armRight2 = this.armGenerator(true, 6);
+      this.armLeft1 = this.armGenerator(false, 4);
+      this.armLeft2 = this.armGenerator(false, 6);
+      this.arm1 = null;
+      this.arm2 = null;
       this.previousDy = this.dy;
+      this.previousDx = this.dx;
    },
    draw : function(painter) {
       this.counter = this.counter + 0.05;
-      this.dx = this.arm1.dx = this.arm2.dx = this.counter*100;
-      this.dy = this.arm1.dy = this.arm2.dy = Math.sin(this.counter*4)*50;
-      this.arm1.angle = 0.5 + Math.sin(this.counter*2)/2; 
-      this.arm2.angle = 0.5 + Math.sin(this.counter*2)/4; 
+      this.dx = this.counter*100*this.velocity;
+      this.dy = Math.sin(this.counter*4)*50;
       this.previousAngle = this.angle;
-      if(this.previousDy > this.dy) {
-         this.image = this.hina1;
+      if(this.velocity > 0) {
+         this.image = (this.previousDy > this.dy ? "hinaRightStep1" : "hinaRightStep2")
+         this.arm1 = this.armRight1;
+         this.arm2 = this.armRight2;
       }
       else {
-         this.image = this.hina2;
+         this.image = (this.previousDy > this.dy ? "hinaLeftStep1" : "hinaLeftStep2")
+         this.arm1 = this.armLeft1;
+         this.arm2 = this.armLeft2;
       }
+      this.arm1.counter = this.arm2.counter = this.counter;
+      this.arm2.draw(painter);
       painter.drawPicture(this);
-      painter.drawPicture(this.arm2);
-      painter.drawPicture(this);
-      painter.drawPicture(this.arm1);
+      this.arm1.draw(painter);
+   },
+   armGenerator : function(isRight, swing) {
+      return new Arm((isRight ? this.x+this.width/4 : this.x+(3*this.width/4)), 
+         this.y+this.height/5, this.width/2, this.height/4, 
+         swing, this.velocity, this.counter);
    }
 });
 
 var Arm = Pictures.extend({
-   init : function(x, y, width, height, angle) {
-      this._super("hinaArm", x, y, width, height, angle);
+   init : function(x, y, width, height, swing, velocity) {
+      this._super(null, x, y, width, height);
+      this.velocity = velocity;
+      this.counter = null;
+      this.swing  = swing;
+   },
+   draw : function(painter) {
+      this.image = (this.velocity > 0 ? "hinaArmRight" : "hinaArmLeft");
+      this.angle = (0.5*this.velocity) + (Math.sin(this.counter*2)/this.swing); 
+      this.dy = Math.sin(this.counter*4)*50;
+      this.dx = this.counter*100*this.velocity;
+      painter.drawPicture(this);
    },
    pivotX : function() {
-      return this.x + (this.width/10) + this.dx;
+      return this.x + this.dx + (this.width/10*this.velocity);
    },
    pivotY : function() {
       return this.y + (this.height/3) + this.dy;
    },
    dpx : function() {
-      return (0 - (this.width/10));
+      return (0 - (this.velocity>0 ? (this.width/10) : (9*this.width/10)));
    },
    dpy : function() {
       return (0 - (this.height/3));
@@ -488,13 +509,14 @@ var FireStation =  Pictures.extend({
 });
 
 var FlyingFlower =  Pictures.extend({
-   init : function(x, y, width, height, angle) {
-      this._super("flower", x, y, width, height, angle);
+   init : function(x, y, width, height, direction) {
+      this._super("flower", x, y, width, height);
       this.counter = 0;
       this.visible;
+      this.direction = direction;
    },
    draw : function(painter) {
-      this.dx = this.counter*3;
+      this.dx = this.direction*this.counter*3;
       this.dy = -1*Math.sin(this.counter++*0.1)*180;
       if(this.absY() < window.innerHeight) {
          painter.drawPicture(this);

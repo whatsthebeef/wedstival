@@ -1,14 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Wedstival</title>
-  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
-
-<%= yield %>
-
-</body>
-</html>
+<% content_for :content do %>
+<div id="wrapper">
+   <div id="container">
+      <%= render partial: "shared/title" %>
+      <%= render partial: "shared/menu" %>
+      <%= yield %>
+   </div>
+</div>
+<%= render partial: "shared/footer" %>
+<% end %>
+<%= render template: "layouts/base_layout" %>

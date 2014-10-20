@@ -1,4 +1,6 @@
 class StaticPagesController < ApplicationController
+   layout "base_layout", only: :how_we_got_here 
+
    def whats_all_this
    end
 
@@ -12,5 +14,8 @@ class StaticPagesController < ApplicationController
    end
 
    def requests
+   end
+
+   def hotel_map
    end
 end

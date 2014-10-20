@@ -1,4 +1,5 @@
 class RequestsController < ApplicationController
+   layout "base_layout"
 
    def new
       @request = Request.new 
@@ -11,9 +12,6 @@ class RequestsController < ApplicationController
       else 
          render "new"
       end
-   end
-
-   def show
    end
 
    private 

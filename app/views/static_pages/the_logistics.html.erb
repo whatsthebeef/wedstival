@@ -1,5 +1,3 @@
-<%= render partial: "shared/title" %>
-<%= render partial: "shared/menu" %>
 <div id="fire-engine">
    <canvas id="fire-engine-canvas">
    </canvas>
@@ -35,7 +33,6 @@
 <canvas id="fire-station-canvas">
 </canvas>
 <script type="text/javascript">
-
    var fireEngine;
    initCanvas(function() {
       var sources = {
@@ -56,13 +53,13 @@
          200, [fireEngine], function(){
             if(fireEngine.absX() > window.innerWidth && !fireEngine.cleanUp) {
                fireEngine.cleanUp = true;
-               windUpCanvas(fec);
+               fireStation.push(fireEngineParking);
             }
       });
-      var fireEngineParking = new FireEngine(window.innerWidth, 120, 200, 200, -10);
+      var fireEngineParking = new FireEngine(window.innerWidth, 135, 200, 200, -10);
       var fsc = canvas(sources, "fire-station-canvas", window.innerWidth, 300, 
          fireStation, function(){
-            if(fireEngineParking.absX() < (window.innerWidth/2 - fireEngine.width/2)) {
+            if(fireEngineParking.absX() < (window.innerWidth/2 - fireEngine.width/2 + 10)) {
                fireEngineParking.velocity = 0;
             }
       });

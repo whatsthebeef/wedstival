@@ -62,6 +62,8 @@ Wedstival::Application.routes.draw do
    get '/how_we_got_here' => 'static_pages#how_we_got_here', as: :how_we_got_here 
    get '/the_logistics' => 'static_pages#the_logistics', as: :the_logistics 
    get '/the_event' => 'static_pages#the_event', as: :the_event 
+   get '/hotel_map' => 'static_pages#hotel_map', as: :hotel_map 
+   get '/disclaimer' => 'static_pages#disclaimer', as: :disclaimer 
 
    resources :requests
 end

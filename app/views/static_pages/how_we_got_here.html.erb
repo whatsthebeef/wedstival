@@ -19,13 +19,16 @@
          tallFlower : "/assets/tall_flower.png",
          tallFlowerBlown : "/assets/tall_flower_blown.png",
          flower: "/assets/flower.png",
-         hinaArmless: "/assets/hina_step_1.png",
-         hina2: "/assets/hina_step_2.png",
-         hinaArm: "/assets/hina_arm.png"
+         hinaRightStep1: "/assets/hina_right_step_1.png",
+         hinaRightStep2: "/assets/hina_right_step_2.png",
+         hinaLeftStep1: "/assets/hina_left_step_1.png",
+         hinaLeftStep2: "/assets/hina_left_step_2.png",
+         hinaArmRight: "/assets/hina_arm_right.png",
+         hinaArmLeft: "/assets/hina_arm_left.png"
       };
 
       var flowerHeight = 150;
-      var hina = new Hina(0, window.innerHeight-400, 300, 400, 0);
+      var hina = new Hina(0, window.innerHeight-400, 300, 400, 1);
       var pictures = [hina];
       pictures.push.apply(pictures, initPicturesByType(TallFlower, 100, 150, flowerHeight, 
       {minx:-100, miny:window.innerHeight-flowerHeight, maxy:window.innerHeight-flowerHeight}));
@@ -34,9 +37,9 @@
       canvas(sources, "dancer-canvas", window.innerWidth, window.innerHeight, pictures);
       window.setInterval(function() {
          pictures.push(new FlyingFlower(hina.absX()+hina.width/2, 
-            (window.innerHeight-3*flowerHeight/4), 40, 40, -0.11));
+            (window.innerHeight-3*flowerHeight/4), 40, 40, 2));
          pictures.push(new FlyingFlower(hina.absX()+hina.width/2, 
-            (window.innerHeight-3*flowerHeight/4), 40, 40, 0.4));
+            (window.innerHeight-3*flowerHeight/4), 40, 40, -2));
       }, 5000);
    });
 
