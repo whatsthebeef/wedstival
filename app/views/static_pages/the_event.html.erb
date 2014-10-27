@@ -30,11 +30,11 @@
    initCanvas(function() {
 
       var sources = {
-         sketchHeartless: "/assets/sketch_heartless.png",
-         fireStation: "/assets/fire_station.png",
-         roofChicken: "/assets/roof_chicken.png",
-         roofChickenDown: "/assets/roof_chicken_left.png",
-         heart: "/assets/heart.png"
+         sketchHeartless: "<%= asset_path 'sketch_heartless.png' %>",
+         fireStation: "<%= asset_path 'fire_station.png' %>",
+         roofChicken: "<%= asset_path 'roof_chicken.png' %>",
+         roofChickenDown: "<%= asset_path 'roof_chicken_left.png' %>",
+         heart: "<%= asset_path 'heart.png' %>"
       };
 
       var pictures = []; 

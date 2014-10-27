@@ -36,14 +36,14 @@
    var fireEngine;
    initCanvas(function() {
       var sources = {
-         fireEngineRight: "/assets/fire_engine_right.png",
-         wheelsRight: "/assets/wheels_right.png",
-         fireEngineLeft: "/assets/fire_engine_left.png",
-         wheelsLeft: "/assets/wheels_left.png",
-         fireStation: "/assets/fire_station.png",
-         roofChicken: "/assets/roof_chicken.png",
-         roofChickenDown: "/assets/roof_chicken_left.png",
-         fireEngine: "/assets/fire_engine.png"
+         fireEngineRight: "<%= asset_path 'fire_engine_right.png' %>",
+         wheelsRight: "<%= asset_path 'wheels_right.png' %>",
+         fireEngineLeft: "<%= asset_path 'fire_engine_left.png' %>",
+         wheelsLeft: "<%= asset_path 'wheels_left.png' %>",
+         fireStation: "<%= asset_path 'fire_station.png' %>",
+         roofChicken: "<%= asset_path 'roof_chicken.png' %>",
+         roofChickenDown: "<%= asset_path 'roof_chicken_left.png' %>",
+         fireEngine: "<%= asset_path 'fire_engine.png' %>"
       };
 
       var fireEngine = new FireEngine(0, 0, 200, 200, 10); 
