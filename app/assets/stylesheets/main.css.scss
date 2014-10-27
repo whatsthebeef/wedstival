@@ -68,11 +68,11 @@ body {
    margin: 0 auto;
 }
 
-@include sticky-footer(50px);
+@include sticky-footer(30px);
 $footer-color: #ccc;
 #footer {
    border-top: 1px solid $footer-color; 
-   margin: 40px 35%;
+   margin: 0 35%;
    text-align: center;
    a {
       opacity: 1;
