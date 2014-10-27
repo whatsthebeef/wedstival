@@ -1,0 +1,25 @@
+<div id="description">
+   <p>
+      Enter the details of a group of guests
+   </p>
+</div>
+<div>
+   <% @group.errors.full_messages.each do |msg| %>
+      <p><%= msg %></p>
+   <% end %>
+   <div>
+      <%= form_for @group do |f| %>
+         <div class="form-element">
+            <%= f.text_field :name, placeholder:"Name" %><br />
+         </div>
+         <div class="form-element">
+            <%= f.text_field :email, placeholder:"Email address" %><br />
+         </div>
+         <div class="form-element">
+            <%= f.submit %>
+         </div>
+      <% end %>
+   </div>
+</div>
+
+

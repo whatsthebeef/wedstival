@@ -1,0 +1,14 @@
+<% @groups.each do |group| %>
+   <div>
+      <div>
+         <%= group.name %>
+      </div>
+      <div>
+         <%= group.email %>
+      </div>
+      <div>
+         <%= link_to "Add guest to group", new_group_guest_path(group) %>
+      </div>
+   </div>
+<% end %>      
+<%= link_to "Add group", new_group_path %>

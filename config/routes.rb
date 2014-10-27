@@ -66,4 +66,7 @@ Wedstival::Application.routes.draw do
    get '/disclaimer' => 'static_pages#disclaimer', as: :disclaimer 
 
    resources :requests
+   resources :groups do
+      resources :guests
+   end
 end
