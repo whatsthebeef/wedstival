@@ -40,9 +40,6 @@ GEM
     execjs (2.2.2)
     hike (1.2.3)
     i18n (0.6.11)
-    jbuilder (1.5.3)
-      activesupport (>= 3.0.0)
-      multi_json (>= 1.2.0)
     json (1.8.1)
     mail (2.6.1)
       mime-types (>= 1.16, < 3)
@@ -105,7 +102,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  jbuilder (~> 1.2)
   pg
   rails (= 4.1.6)
   recaptcha
