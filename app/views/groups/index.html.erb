@@ -1,14 +1,24 @@
-<% @groups.each do |group| %>
-   <div>
-      <div>
-         <%= group.name %>
+<div id="description">
+   <p>
+   The list of all the groups of guests
+   </p>
+   <% @groups.each do |group| %>
+      <div class="group">
+         <div>
+            <h3><%= link_to group.name, group, :"data-no-turbolink" => true %></h1>
+         </div>
+         <div>
+            The guests in this group are <%= group.guests.map{|g|g.name}.to_sentence %>
+         </div>
+         <% unless group.received_invite %>
+            <%= form_for :groups, as: :post, url: send_invite_path(group) do |f| %>
+               <%= image_submit_tag "send_invitation.png", class:"add" %>
+            <% end %>      
+         <% end %>      
+         <%= link_to image_tag("add_guest_to_group.png"), new_group_guest_path(group), {class:"add", :"data-no-turbolink" => true } %>
       </div>
-      <div>
-         <%= group.email %>
-      </div>
-      <div>
-         <%= link_to "Add guest to group", new_group_guest_path(group) %>
-      </div>
+   <% end %>      
+   <div class="add-group">
+      <%= link_to image_tag("add_group.png"), new_group_path, {:"data-no-turbolink" => true, class:"add" } %>
    </div>
-<% end %>      
-<%= link_to "Add group", new_group_path %>
+</div>

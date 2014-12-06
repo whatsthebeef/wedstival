@@ -1,6 +1,9 @@
 <div id="description">
    <p>
-      Enter the details of a guests
+   Enter the name of a new guest who will come as part of the <%= @group.name %> group
+   </p>
+   <p>
+   Guests already in this group are <%= @group.guests.map{|g|g.name}.to_sentence %>
    </p>
 </div>
 <div>
@@ -10,10 +13,11 @@
    <div>
       <%= form_for [@group, @guest] do |f| %>
          <div class="form-element">
-            <%= f.text_field :name, placeholder:"Name" %><br />
+            <%= f.text_field :name, placeholder:"Enter guest's name" %>
          </div>
          <div class="form-element">
-            <%= f.submit %>
+            <%= image_submit_tag "submit.png" %>
+            <%= link_to image_tag("cancel.png"), group_path(@group), {class:"cancel", :"data-no-turbolink" => true} %>
          </div>
       <% end %>
    </div>

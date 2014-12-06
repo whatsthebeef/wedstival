@@ -1,0 +1,25 @@
+<div id="description">
+   <p>
+   This is the RSVP page for the <%= @group.name %>. 
+   </p>
+   <p>
+   Please let us know who is coming by checking the box next to their name. 
+   If you run into difficulties, have any questions or just want to tell us 
+   leave a comment or something send us email to john@zode64.com 
+   </p>
+   <p>
+   Visit the site to find out more by clicking <%= link_to "here", root_path %>
+   </p>
+   <%= form_for @group do |f| %>
+      <div class="form-element">
+         <%= f.fields_for :guests do |ff| %>
+            <%= "#{ff.object.name}" %> <%= ff.check_box(:is_coming) %> 
+         <% end %>
+      </div>
+      <div class="form-element">
+         <%= image_submit_tag "submit.png" %>
+         <%= link_to image_tag("cancel.png"), root_path, {:"data-no-turbolink" => true, class:"cancel" } %>
+      </div>
+   <% end %>
+</div>
+

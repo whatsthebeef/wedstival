@@ -3,6 +3,7 @@ class Group < ActiveRecord::Base
    before_validation :generate_code
 
    has_many :guests
+   accepts_nested_attributes_for :guests
 
    validates :name, presence: true
    validates :code, presence: true
@@ -14,5 +15,11 @@ class Group < ActiveRecord::Base
       if code.blank?
          self.code = Digest::SHA1.hexdigest "#{name}#{Rails.configuration.hash_string}"
       end
+   end
+
+   def send_invite
+      GroupMailer.send_invite(self)
+      self.received_invite = true
+      save!
    end
 end

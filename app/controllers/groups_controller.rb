@@ -1,5 +1,5 @@
 class GroupsController < ApplicationController
-   before_filter :find_group, only: [:edit, :update, :show]  
+   before_filter :find_group, only: [:edit, :update, :show, :send_invite]  
 
    def index
       @groups = Group.all
@@ -22,7 +22,7 @@ class GroupsController < ApplicationController
    end
 
    def update
-      Group.update_attributes(group_params)
+      @group.update_attributes(group_params)
       if @group.save
          redirect_to @group
       else 
@@ -31,6 +31,15 @@ class GroupsController < ApplicationController
    end
 
    def show 
+   end
+
+   def rsvp
+      @group = Group.find_by_code(params[:code])
+   end
+
+   def send_invite
+      @group.send_invite
+      redirect_to groups_path
    end
 
    private 

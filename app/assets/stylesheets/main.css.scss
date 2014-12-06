@@ -2,13 +2,11 @@
 @import "mixins";
 
 body {
-   font-family: 'Lato', sans-serif;
-   font-style: italic;
-   color: black;
-   a {
+   @extend .font;
+   a, .btn > img {
       color: black;
       text-decoration: none;
-      opacity: 0.5;
+      opacity: 0.6;
       &:hover {
          opacity: 1;
       }
@@ -24,6 +22,7 @@ body {
    width: 98%;
    margin: 0 auto;
    canvas {
+      cursor: pointer;
       @extend .center-canvas;
    }
 }
@@ -37,7 +36,7 @@ body {
       overflow:hidden;
       div {
          img {
-            @include hover-image-link(0.8);
+            // @include hover-image-link(0.8);
          }
          padding-left:15%;
          float:left;
@@ -50,10 +49,10 @@ body {
          width:18%;
       }
       #the-logistics {
-         width:12%;
+         width:15%;
       } 
       #the-event {
-         width:10%;
+         width:11%;
       }
       #requests {
          width:9%;
@@ -61,7 +60,7 @@ body {
    }
 }
 
-#description {
+#description, form {
    text-align:center;
    padding-top: 1%;
    width: 40%;
@@ -69,7 +68,7 @@ body {
 }
 
 @include sticky-footer(30px);
-$footer-color: #ccc;
+$footer-color: #bbb;
 #footer {
    border-top: 1px solid $footer-color; 
    margin: 0 35%;
@@ -78,7 +77,7 @@ $footer-color: #ccc;
       opacity: 1;
       color: $footer-color;
       &:hover {
-         color: #aaa;
+         color: #888;
       }
    }
    color: $footer-color;
@@ -106,7 +105,6 @@ $footer-color: #ccc;
 
 
 img {
-   height:100%;
    width:100%;
 }
 
@@ -125,20 +123,51 @@ img {
 }
 
 .form-element {
-   padding: 2% 0%;
+   padding: 20px 0;
    label {
       padding-right:1%;
    }
-   input[type="text"] {
+   input[type="text"], input[type="password"] {
+      @extend .font;
       font-size: 1.1em;
       padding-left: 2px;
    }
 }
 
-input[type="image"] {
+.cancel {
+   img {
+      // @include hover-image-link(0.5);
+      width: 100px;
+   }
+}
+
+h3 {
+   font-weight: normal;
+   a {
+      padding: 0 1%;
+   }
+}
+
+.add > img, input[type="image"].add {
+   // @include hover-image-link(0.5);
+   width: 220px;
+}
+
+input[type="image"], .btn > img {
    padding-top: 1%;
-   @include hover-image-link(0.5);
-   width: 200px;
+   @include hover-image-link(0.6);
+   width: 100px;
+   &.requests {
+      width: 200px;
+   }
+}
+
+.group {
+   padding: 20px 0;
+}
+
+.add-group {
+   padding: 5%;
 }
 
 .center-canvas {
@@ -147,6 +176,12 @@ input[type="image"] {
    margin-left: auto;
    margin-right: auto;
    display: block
+}
+
+.font {
+   font-family: 'Lato', sans-serif;
+   font-style: italic;
+   color: black;
 }
 
 

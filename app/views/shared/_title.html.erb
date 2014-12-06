@@ -13,18 +13,20 @@
          peckingChicken: "<%= asset_path 'pecking_chicken.png' %>",
          hinaAndJohnsWedding: "<%= asset_path 'hina_and_johns_wedding.png' %>",
          johnAndHinasWedstival: "<%= asset_path 'john_and_hinas_wedstival.png' %>",
+         johnAndHinasWedding: "<%= asset_path 'john_and_hinas_wedding.png' %>",
          peckingChickenPecking: "<%= asset_path 'pecking_chicken_pecking.png' %>"
       };
 
       pictures = [
-         new TallFlower(0, 40, 200, 130, -Math.PI/18),
-         new Pictures("hinaAndJohnsWedding", 145, 100, 600, 100, 0),
+         new TallFlower(20, 40, 230, 130, -Math.PI/18),
+         // new Pictures("hinaAndJohnsWedding", 145, 100, 600, 100, 0),
          // new Pictures("johnAndHinasWedstival", 135, 100, 600, 130, 0),
-         new PeckingChicken(750, 120, 50, 60, 0)
+         new Pictures("johnAndHinasWedding", 145, 90, 620, 130, 0),
+         new PeckingChicken(750, 115, 50, 60, 0)
       ]
 
       // title
-      var titleCanvas = canvas(sources, "title-canvas", 940, 200, pictures);
+      var titleCanvas = canvas(sources, "title-canvas", 940, 210, pictures);
       titleCanvas.addEventListener('click', function() {
          window.location.href="/";
       }, false)

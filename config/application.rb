@@ -22,5 +22,9 @@ module Wedstival
       config.serve_static_assets = true
 
       config.hash_string = ENV["WEDSTIVAL_HASH_STRING"]
+      config.john_p = ENV["JOHN_P"]
+      config.hina_p = ENV["HINA_P"]
+
+      config.filter_parameters << :password 
    end
 end

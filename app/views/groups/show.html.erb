@@ -1,18 +1,33 @@
-<div>
+<div id="description">
    <div>
-      <%= @group.name %>
+      <h3><%= link_to @group.name, @group %></h3>
    </div>
-   <div>
-      <%= @group.email %>
-   </div>
-   <div>
-      <% @group.guests.each do |guest| %>
-         <div>
-            <%= guest.name %>
-         </div>
+   <p>
+   The guests in the <%= @group.name %> group are <%= @group.guests.map{|g|g.name}.to_sentence %>
+</p>
+<p>
+The email address to contact them is <%= @group.email %>
+   </p>
+   <p>
+   <% if @group.has_submitted %>
+      The group has submitted their response
+      <% @group.guests.each do |g| %>
+         <%= "#{g.name} #{g.is_coming ? 'is coming' : 'is not coming'}" %>
       <% end %>
-   </div>
-   <div>
-      <%= link_to "Add guest to group", new_group_guest_path(@group) %>
-   </div>
+      <% if @group.message.blank? %>
+         but didn't leave a message
+      <% else %>
+         They said "<%= @group.message %>" 
+      <% end %>
+   <% else %>
+      The group hasn't yet submitted their response to the invitation
+   <% end %>
+   </p>
+   <p>
+   <%= render partial: "send_invite_button", locals: {group: @group} %>
+   <%= link_to image_tag("add_guest.png"), new_group_guest_path(@group), { class:"add" } %>
+   <%= link_to image_tag("cancel.png"), groups_path, { class: "cancel" } %>
+   </p>
 </div>
+
+
