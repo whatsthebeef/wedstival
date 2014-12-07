@@ -6,6 +6,6 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-User.create(username:"us", email:"#{Rails.configuration.email}", 
-            password:"#{Rails.configuration.us_p}", 
-            password_confirmation:"#{Rails.configuration.us_p}") 
+User.create(username:"us", email:"us@johnandhinaswedding.website", 
+            password:ENV["P"], 
+            password_confirmation:ENV["P"]) 
