@@ -2,6 +2,7 @@ class RequestsController < ApplicationController
    layout "base_layout"
 
    def new
+      @active_item = 4
       @request = Request.new 
    end
 

@@ -1,5 +1,5 @@
 class GroupMailer < ActionMailer::Base
-   default from: "whiskeytangobravo@googlemail.com"
+   default from: Rails.application.config.email
 
    def send_invite(group)
       @group = group

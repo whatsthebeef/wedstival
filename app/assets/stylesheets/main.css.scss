@@ -153,6 +153,10 @@ h3 {
    width: 220px;
 }
 
+a.active {
+   opacity:1;
+}
+
 input[type="image"], .btn > img {
    padding-top: 1%;
    @include hover-image-link(0.6);
