@@ -138,7 +138,7 @@ function canvas(sources, canvasId, width, height, pictures, callback) {
       while (i < pictures.length) {
          var pic = pictures[i];
          if(pic.cleanUp) {
-            pictures.splice(i, i+1);
+            pictures.splice(i, 1);
          }
          else {
             pic.draw(p); 
