@@ -22,7 +22,7 @@ module Wedstival
       config.serve_static_assets = true
 
       config.hash_string = ENV["WEDSTIVAL_HASH_STRING"]
-      config.us_p = ENV["US_P"]
+      config.us_p = ENV["P"]
       config.email = "us@johnandhinaswedding.website"
 
       config.filter_parameters << :password 
