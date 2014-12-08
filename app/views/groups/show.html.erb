@@ -3,10 +3,16 @@
       <h3><%= link_to @group.name, @group %></h3>
    </div>
    <p>
-   The guests in the <%= @group.name %> group are <%= @group.guests.map{|g|g.name}.to_sentence %>
-</p>
-<p>
-The email address to contact them is <%= @group.email %>
+      <% if @group.guests.empty? %>
+         There are no guests in the <%= @group.name %> group yet.
+      <% elsif @group.guests.size == 1 %>
+         The only guest in the <%= @group.name %> group is <%= @group.guests.map{|g|g.name}.to_sentence %>.
+      <% else %>
+         The guests in the <%= @group.name %> group are <%= @group.guests.map{|g|g.name}.to_sentence %>.
+      <% end %>
+   </p>
+   <p>
+      The email address to contact the group is <%= @group.email %>
    </p>
    <p>
    <% if @group.has_submitted %>
@@ -25,8 +31,11 @@ The email address to contact them is <%= @group.email %>
    </p>
    <p>
    <%= render partial: "send_invite_button", locals: {group: @group} %>
-   <%= link_to image_tag("add_guest.png"), new_group_guest_path(@group), { class:"add" } %>
    <%= link_to image_tag("cancel.png"), groups_path, { class: "cancel" } %>
+   <%= link_to image_tag("edit.png"), edit_group_path(@group), { class: "cancel" } %>
+   <%= link_to image_tag("delete.png"), @group, method: :delete, class: "cancel" %>
+   <br/>
+   <%= link_to image_tag("add_guest.png"), new_group_guest_path(@group), { class:"add" } %>
    </p>
 </div>
 

@@ -1,5 +1,5 @@
 class GroupsController < ApplicationController
-   before_filter :find_group, only: [:edit, :update, :show, :send_invite]  
+   before_filter :find_group, only: [:edit, :update, :show, :send_invite, :destroy]  
 
    def index
       @groups = Group.all
@@ -33,6 +33,11 @@ class GroupsController < ApplicationController
    def show 
    end
 
+   def destroy
+      @group.delete
+      redirect_to groups_path
+   end
+
    def rsvp
       @group = Group.find_by_code(params[:code])
    end
@@ -48,6 +53,6 @@ class GroupsController < ApplicationController
    end
 
    def group_params
-      params.require(:group).permit(:name, :code, :email)
+      params.require(:group).permit(:name, :code, :email, guests_attributes:[:is_coming, :id])
    end
 end
