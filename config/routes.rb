@@ -16,16 +16,13 @@ Wedstival::Application.routes.draw do
 
    resources :user_sessions
 
-   get 'requests' => 'admin/requests#new', as: :new_request
+   get '/admin' => "admin#main_page", as: :admin
+   get 'groups/rsvp/:code' => 'groups#rsvp', as: :rsvp
+   post 'groups/:id/send_invite' => 'groups#send_invite', as: :send_invite
 
-   namespace :admin do 
-      get '/' => "admin#main_page", as: :admin
-      get 'groups/rsvp/:code' => 'groups#rsvp', as: :rsvp
-      post 'groups/:id/send_invite' => 'groups#send_invite', as: :send_invite
-      resources :requests
-      resources :groups do
-         resources :guests
-      end
-
+   resources :requests
+   resources :groups do
+      resources :guests
    end
+
 end

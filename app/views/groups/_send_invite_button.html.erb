@@ -1,4 +1,4 @@
-<%= form_for :groups, as: :post, url: admin_send_invite_path(group), html: { 
+<%= form_for :groups, as: :post, url: send_invite_path(group), html: { 
    onsubmit: %{return confirm("Are you sure you want to send the invite#{if group.received_invite then ', you have already sent an invite to this group' end}")}, style:"padding-top:0px;" } do |f| %>
    <%= image_submit_tag "send_invitation.png", class:"add" %>
 <% end %>      

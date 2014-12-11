@@ -1,4 +1,4 @@
-class Admin::GroupsController < ApplicationController
+class GroupsController < ApplicationController
    before_filter :find_group, only: [:edit, :update, :show, :send_invite, :destroy]  
 
    def index

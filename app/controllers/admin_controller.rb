@@ -1,4 +1,4 @@
-class Admin::AdminController < ApplicationController
+class AdminController < ApplicationController
 
    def main_page
       @groups = Group.last_five

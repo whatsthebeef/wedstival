@@ -1,4 +1,4 @@
-class Admin::RequestsController < ApplicationController
+class RequestsController < ApplicationController
    layout "base_layout", except: :index
 
    def index

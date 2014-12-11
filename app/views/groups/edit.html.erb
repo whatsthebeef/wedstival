@@ -2,7 +2,7 @@
    <h3>Edit <%= @group.name %></h3>
 </div>
 <div>
-   <%= form_for [:admin, @group] do |f| %>
+   <%= form_for @group do |f| %>
       <% @group.errors.full_messages.each do |msg| %>
          <p><%= msg %></p>
       <% end %>
@@ -27,7 +27,7 @@
       </div>
       <div class="form-element">
          <%= image_submit_tag "submit.png" %>
-         <%= link_to image_tag("cancel.png"), admin_groups_path, class:"cancel" %>
+         <%= link_to image_tag("cancel.png"), groups_path, class:"cancel" %>
       </div>
    <% end %>
 
@@ -38,7 +38,7 @@
       <% @group.guests.each do |g| %>
          <div class="guest-coming">
             <div class="name"><%= "#{g.name}" %></div> 
-            <%= button_to "", [:admin, @group, g], method: :delete, class: "delete" %>
+            <%= button_to "", [@group, g], method: :delete, class: "delete" %>
          </div>
       <% end %>
    </div>
