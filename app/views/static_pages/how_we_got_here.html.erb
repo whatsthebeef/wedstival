@@ -28,9 +28,9 @@
       };
 
       var flowerHeight = 150;
-      var hina = new Hina(0, window.innerHeight-400, 300, 400, 1);
+      var hina = new Hina(-300, window.innerHeight-400, 300, 400, 1);
       var pictures = [hina];
-      pictures.push.apply(pictures, initPicturesByType(TallFlower, 100, 150, flowerHeight, 
+      pictures.push.apply(pictures, initPicturesByType(TallFlower, 50, 150, flowerHeight, 
       {minx:-100, miny:window.innerHeight-flowerHeight, maxy:window.innerHeight-flowerHeight}));
 
       // title
