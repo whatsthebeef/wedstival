@@ -1,0 +1,56 @@
+<div id="description">
+   <h3>Latest requests</h3>
+   <div class="group">
+      <% Request.last_five.each do |r| %> 
+         <p>
+            <%= r.song_title %> by <%= r.artist %>
+         </p>
+      <% end %>
+      <p>
+      <%= link_to "All request", admin_requests_path %>
+      </p>
+   </div> 
+   <hr/>
+   <h3>Numbers</h3>
+   <div class="group">
+      <p>
+         <%= link_to count("group", Group.count), admin_groups_path %>
+      </p>
+      <p>
+         <%= link_to responded("group", Group.num_responded, false), admin_groups_path(has_submitted: 1) %>
+      </p>
+      <p>
+         <%= link_to responded("group", Group.num_not_responded, true), admin_groups_path(has_submitted: 0) %>
+      </p>
+      <p>
+         <%= count("guest", Guest.count) %>
+      </p>
+      <p>
+         <%= responded("guest", Group.num_guests_responded, false) %>
+      </p>
+      <p>
+         <%= coming("guest", Guest.num_coming) %>
+      </p>
+      <p>
+      <%= link_to "All groups", admin_groups_path %>
+      </p>
+   </div> 
+   <hr/>
+   <h3>Recent responses</h3>
+   <% @groups.each do |group| %>
+      <div class="group">
+         <div>
+            <h3><%= link_to group.name, admin_group_path(group) %></h3>
+         </div>
+         <div>
+            <%= render partial: "admin/shared/group", object: group %>
+         </div>
+      </div>
+   <% end %>      
+   <%= link_to "All responses", admin_groups_path(has_submitted: 1) %>
+
+   <div class="add-group">
+      <%= link_to image_tag("cancel.png"), root_path, class:"cancel" %>
+   </div>
+
+</div>

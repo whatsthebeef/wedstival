@@ -1,8 +1,12 @@
-class GroupsController < ApplicationController
+class Admin::GroupsController < ApplicationController
    before_filter :find_group, only: [:edit, :update, :show, :send_invite, :destroy]  
 
    def index
-      @groups = Group.all
+      if params[:has_submitted].blank?
+         @groups = Group.all
+      else
+         @groups = Group.where_has_submitted(params[:has_submitted])
+      end
    end
 
    def new
@@ -35,7 +39,7 @@ class GroupsController < ApplicationController
 
    def destroy
       @group.delete
-      redirect_to groups_path
+      redirect_to admin_groups_path
    end
 
    def rsvp
@@ -53,6 +57,6 @@ class GroupsController < ApplicationController
    end
 
    def group_params
-      params.require(:group).permit(:name, :code, :email, guests_attributes:[:is_coming, :id])
+      params.require(:group).permit(:name, :code, :email, :has_submitted, :message, guests_attributes:[:is_coming, :id])
    end
 end

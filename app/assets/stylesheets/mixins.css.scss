@@ -5,6 +5,14 @@
    }
 }
 
+@mixin delete-btn($width, $height) {
+   background: image-url("delete.png") no-repeat left bottom;
+   width: $width;
+   height: $height;
+   background-size: $width $height;
+   border: none;
+}
+
 @mixin sticky-footer($footer-height, $wrapper-selector: unquote("#wrapper"), $container-selector: unquote("#container"), $footer-selector: unquote("#footer")) {
    html, body {
       height: 100%;

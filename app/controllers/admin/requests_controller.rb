@@ -1,5 +1,9 @@
-class RequestsController < ApplicationController
-   layout "base_layout"
+class Admin::RequestsController < ApplicationController
+   layout "base_layout", except: :index
+
+   def index
+      @requests = Request.all
+   end
 
    def new
       @active_item = 4

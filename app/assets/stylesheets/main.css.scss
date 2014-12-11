@@ -3,7 +3,8 @@
 
 body {
    @extend .font;
-   a, .btn > img {
+   a, .btn > img, .delete {
+      cursor: pointer;
       color: black;
       text-decoration: none;
       opacity: 0.6;
@@ -138,6 +139,7 @@ img {
    img {
       // @include hover-image-link(0.5);
       width: 100px;
+      height: 50px;
    }
 }
 
@@ -157,6 +159,39 @@ a.active {
    opacity:1;
 }
 
+.bottom {
+   padding-bottom:5%;
+}
+
+hr {
+   margin: 50px 35%;
+}
+
+.guest-coming {
+   margin-top: 10px; 
+   input[type=checkbox] {
+      margin: 0 20px;
+   }
+   .name {
+      margin-right: 20px;
+   }
+   label, input, div, form { display: inline-block; }
+   @include delete-btn(80px, 30px)
+}
+
+.middle-btn-row {
+   div, a > img, form {
+      display: inline-block;
+   }
+   form {
+      width: 100px;
+      height: 60px;
+   }
+   .delete {
+      @include delete-btn(100px, 50px)
+   }
+}
+
 input[type="image"], .btn > img {
    padding-top: 1%;
    @include hover-image-link(0.6);
@@ -167,7 +202,7 @@ input[type="image"], .btn > img {
 }
 
 .group {
-   padding: 20px 0;
+   padding-top: 20px;
 }
 
 .add-group {

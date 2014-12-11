@@ -1,0 +1,27 @@
+<div>
+   <p>
+   <% if group.empty %>
+      There are no guests in this group yet.
+   <% elsif group.just_one %>
+      The only guest in this group is <%= group.all_guests %>.
+   <% else %>
+      The guests in this group are <%= group.all_guests %>.
+   <% end %>
+   </p>
+   <p>
+   <% if group.has_submitted %>
+      <% if group.just_one %>
+         <%= group.whose_coming %> is coming. 
+      <% else %>
+         <%= group.whose_coming %> are coming. 
+      <% end %>
+      <% if group.message.blank? %>
+         A message wasn't left 
+      <% else %>
+         The message left said "<%= group.message %>"
+      <% end %>
+   <% elsif %>
+      The group hasn't submitted a response yet.
+   <% end %>
+   </p>
+</div>

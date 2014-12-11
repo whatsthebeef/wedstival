@@ -14,12 +14,18 @@ Wedstival::Application.routes.draw do
    get '/login' => 'user_sessions#new', as: :login
    get '/logout' => 'user_sessions#destroy', as: :logout
 
-   resources :requests
    resources :user_sessions
 
-   get 'groups/rsvp/:code' => 'groups#rsvp', as: :rsvp
-   post 'groups/:id/send_invite' => 'groups#send_invite', as: :send_invite
-   resources :groups do
-      resources :guests
+   get 'requests' => 'admin/requests#new', as: :new_request
+
+   namespace :admin do 
+      get '/' => "admin#main_page", as: :admin
+      get 'groups/rsvp/:code' => 'groups#rsvp', as: :rsvp
+      post 'groups/:id/send_invite' => 'groups#send_invite', as: :send_invite
+      resources :requests
+      resources :groups do
+         resources :guests
+      end
+
    end
 end

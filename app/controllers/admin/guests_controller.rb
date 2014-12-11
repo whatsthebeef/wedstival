@@ -15,6 +15,12 @@ class GuestsController < ApplicationController
       end
    end
 
+   def destroy
+      @guest = Guest.find(params[:id])
+      @guest.delete unless @guest.nil?
+      redirect_to groups_path
+   end
+
    private 
    def guest_params
       params.require(:guest).permit(:name)

@@ -1,0 +1,20 @@
+<div id="description">
+   <h3>Groups</h3>
+   <% @groups.each do |group| %>
+      <div class="group">
+         <div>
+            <h3><%= link_to group.name, admin_group_path(group) %></h3>
+         </div>
+         <div>
+            <%= render partial: "admin/shared/group", object: group %>
+         </div>
+      </div>
+   <% end %>      
+   <div class="add-group">
+   <% if params[:has_submitted].blank? %>
+      <%= link_to image_tag("add_group.png"), new_admin_group_path, class:"add" %>
+   <% end %>      
+      <%= link_to image_tag("cancel.png"), admin_admin_path, class:"cancel" %>
+   </div>
+
+</div>

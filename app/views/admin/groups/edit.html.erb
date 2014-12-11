@@ -1,0 +1,48 @@
+<div id="description">
+   <h3>Edit <%= @group.name %></h3>
+</div>
+<div>
+   <%= form_for [:admin, @group] do |f| %>
+      <% @group.errors.full_messages.each do |msg| %>
+         <p><%= msg %></p>
+      <% end %>
+      <div class="form-element">
+         <%= f.text_field :name, placeholder:"Enter name of group" %><br />
+      </div>
+      <div class="form-element">
+         <%= f.text_field :email, placeholder:"Enter email to address" %><br />
+      </div>
+      <div class="form-element">
+         <%= f.label "Whose coming?" %>
+         <%= f.fields_for :guests do |ff| %>
+            <div class="guest-coming">
+               <%= ff.label "#{ff.object.name}" %> 
+               <%= ff.check_box(:is_coming) %> 
+            </div>
+         <% end %>
+      </div>
+      <div class="form-element">
+         <%= f.label :has_submitted, "Has the group submitted a response" %>
+         <%= f.check_box :has_submitted %>
+      </div>
+      <div class="form-element">
+         <%= image_submit_tag "submit.png" %>
+         <%= link_to image_tag("cancel.png"), admin_groups_path, class:"cancel" %>
+      </div>
+   <% end %>
+
+   <hr/>
+
+   <div id="description" class="bottom">
+      <h3>Remove guests</h3>
+      <% @group.guests.each do |g| %>
+         <div class="guest-coming">
+            <div class="name"><%= "#{g.name}" %></div> 
+            <%= button_to "", [:admin, @group, g], method: :delete, class: "delete" %>
+         </div>
+      <% end %>
+   </div>
+
+</div>
+
+

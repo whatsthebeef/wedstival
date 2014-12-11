@@ -1,0 +1,12 @@
+<div id="description">
+   <h3>Requests</h3>
+   <div class="group">
+      <% @requests.each do |r| %>
+         <p><%= "#{r.song_title} by #{r.artist}" %></p>
+      <% end %>      
+      <div class="add-group">
+         <%= link_to image_tag("cancel.png"), admin_admin_path, class:"cancel" %>
+      </div>
+
+   </div>
+</div>

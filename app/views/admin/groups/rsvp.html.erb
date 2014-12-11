@@ -1,22 +1,26 @@
 <div id="description">
+   <h3>
+   This is the RSVP page for the <%= @group.name %> group
+   </h3>
    <p>
-   This is the RSVP page for the <%= @group.name %>. 
-   </p>
-   <p>
-   Please let us know who is coming by checking the box next to their name. 
-   If you run into difficulties, have any questions or just want to tell us 
-   something send us an email to <%= Rails.application.config.email %>
+   Please let us know who is coming by filling out the details below.
+   If you run into difficulties or just want to tell us 
+   something send an email to <%= Rails.application.config.email %>
    </p>
    <p>
    Visit the site to find out more by clicking <%= link_to "here", root_path %>
    </p>
    <%= form_for @group do |f| %>
       <div class="form-element">
+         Checking the box next to the name of whoever is coming
          <p>
             <%= f.fields_for :guests do |ff| %>
                <%= "#{ff.object.name}" %> <%= ff.check_box(:is_coming) %> 
             <% end %>
          </p>
+         <%= hidden_field_tag "group[has_submitted]", true %>
+         <%= f.label "Leave us a message" %>
+         <%= f.text_area :message, cols: "40", rows: "10"  %>
       </div>
       <div class="form-element">
          <%= image_submit_tag "submit.png" %>
