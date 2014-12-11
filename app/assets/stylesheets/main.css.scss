@@ -29,18 +29,13 @@ body {
 }
 
 #menu {
-   width: 50%;
-   margin: 0 auto;
    .row {
-      padding-top: 2%;
+      padding-top: 1%;
       width:100%;
       overflow:hidden;
       text-align: center;
       div {
-         img {
-            // @include hover-image-link(0.8);
-         }
-         padding:0% 5%;
+         padding: 0% 2%;
          display: inline-block;
       }
       #whats-all-this {
