@@ -22,6 +22,8 @@ Wedstival::Application.routes.draw do
    get 'groups/rsvp/:code' => 'groups#rsvp', as: :rsvp
    post 'groups/:id/send_invite' => 'groups#send_invite', as: :send_invite
 
+   get '/make_request' => "requests#new", as: :new_request
+
    resources :requests
    resources :groups do
       resources :guests
