@@ -14,7 +14,7 @@ class RequestsController < ApplicationController
    def create
       @request = Request.new(request_params)
       if verify_recaptcha(model: @request, message: "You guessed the text wrong") && @request.save
-         flash[:notice] = "Your request has been sent"
+         flash.now[:notice] = "Your request has been sent"
          redirect_to new_request_path
       else 
          render "new"

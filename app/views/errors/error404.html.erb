@@ -1,15 +1,13 @@
 <canvas id="404-canvas" class="background"></canvas>
 <div class="overlay">
    <%= render partial: "shared/title" %>
-   <div id="description">
-      <%= link_to image_tag("404.png"), root_path, id:"error-404" %>
-   </div>
 </div>
 <script type="text/javascript">
 
    initCanvas(function() {
 
       var sources = {
+         message: "<%= asset_path '404.png' %>",
          hinaRightStep1: "<%= asset_path 'hina_right_step_1.png' %>",
          hinaRightStep2: "<%= asset_path 'hina_right_step_2.png' %>",
          hinaLeftStep1: "<%= asset_path 'hina_left_step_1.png' %>",
@@ -19,11 +17,12 @@
          peckingChickenRight: "<%= asset_path 'pecking_chicken_right.png' %>",
       };
 
+      var message = new Pictures("message", window.innerWidth/4, window.innerHeight-window.innerHeight/2, window.innerWidth/2, window.innerHeight/2);
       var hina = new Hina(-500, window.innerHeight-400, 300, 400, 1);
       var runningChicken1 = new RunningChicken(-750, window.innerHeight-80, 80, 80, 5);
       var runningChicken2 = new RunningChicken(-850, window.innerHeight-80, 80, 80, 5);
       var runningChicken3 = new RunningChicken(-950, window.innerHeight-80, 80, 80, 5);
-      var pictures = [hina, runningChicken1, runningChicken2, runningChicken3];
+      var pictures = [message, hina, runningChicken1, runningChicken2, runningChicken3];
 
       // title
       canvas(sources, "404-canvas", window.innerWidth, window.innerHeight, pictures);
