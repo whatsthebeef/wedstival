@@ -1,0 +1,29 @@
+<canvas id="404-canvas" class="background"></canvas>
+<div class="overlay">
+   <%= render partial: "shared/title" %>
+   <div id="description">
+      <%= link_to image_tag("404.png"), root_path, id:"error-404" %>
+   </div>
+</div>
+<script type="text/javascript">
+
+   initCanvas(function() {
+
+      var sources = {
+         hinaRightStep1: "<%= asset_path 'hina_right_step_1.png' %>",
+         hinaRightStep2: "<%= asset_path 'hina_right_step_2.png' %>",
+         hinaLeftStep1: "<%= asset_path 'hina_left_step_1.png' %>",
+         hinaLeftStep2: "<%= asset_path 'hina_left_step_2.png' %>",
+         hinaArmRight: "<%= asset_path 'hina_arm_right.png' %>",
+         hinaArmLeft: "<%= asset_path 'hina_arm_left.png' %>"
+      };
+
+      var hina = new Hina(0, window.innerHeight-400, 300, 400, 1);
+      var pictures = [hina];
+
+      // title
+      canvas(sources, "404-canvas", window.innerWidth, window.innerHeight, pictures);
+   });
+
+
+</script>

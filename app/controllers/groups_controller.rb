@@ -1,5 +1,6 @@
 class GroupsController < ApplicationController
    before_filter :find_group, only: [:edit, :update, :show, :send_invite, :destroy]  
+   before_filter :authenticate, except: [:rsvp, :update] 
 
    def index
       if params[:has_submitted].blank?
@@ -39,7 +40,7 @@ class GroupsController < ApplicationController
 
    def destroy
       @group.delete
-      redirect_to admin_groups_path
+      redirect_to groups_path
    end
 
    def rsvp

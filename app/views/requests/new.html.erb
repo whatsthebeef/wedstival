@@ -10,6 +10,7 @@
    </div>
    <div>
       <%= form_for @request do |f| %>
+         <%= h flash[:notice] %>
          <% @request.errors.full_messages.each do |msg| %>
             <p><%= msg %></p>
          <% end %>

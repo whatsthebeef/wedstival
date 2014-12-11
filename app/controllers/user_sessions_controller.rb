@@ -6,9 +6,9 @@ class UserSessionsController < ApplicationController
 
    def create
       @user_session = UserSession.new(params[:user_session])
-      if @user_session.save
+      if verify_recaptcha(model: @user_session, message: "You guessed the text wrong") && @user_session.save
          flash[:notice] = "Successfully logged in."
-         redirect_to root_url
+         redirect_to admin_path
       else
          flash[:notice] = "No no no... Try again"
          render :action => 'new'

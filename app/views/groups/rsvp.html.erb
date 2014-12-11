@@ -12,14 +12,17 @@
    </p>
    <%= form_for @group do |f| %>
       <div class="form-element">
-         Checking the box next to the name of whoever is coming
+         Check the box next to the name of whoever is coming
          <p>
             <%= f.fields_for :guests do |ff| %>
                <%= "#{ff.object.name}" %> <%= ff.check_box(:is_coming) %> 
             <% end %>
          </p>
          <%= hidden_field_tag "group[has_submitted]", true %>
+      </div>
+      <div class="form-element">
          <%= f.label "Leave us a message" %>
+         <br/>
          <%= f.text_area :message, cols: "40", rows: "10"  %>
       </div>
       <div class="form-element">

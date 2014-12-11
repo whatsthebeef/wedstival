@@ -1,5 +1,7 @@
 Wedstival::Application.routes.draw do
      
+   match "/404" => "errors#error404", via: [ :get, :post, :patch, :delete ]
+
    # You can have the root of your site routed with "root"
    root 'static_pages#whats_all_this'
 

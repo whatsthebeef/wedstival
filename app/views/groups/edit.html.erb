@@ -26,6 +26,11 @@
          <%= f.check_box :has_submitted %>
       </div>
       <div class="form-element">
+         <%= f.label "Messages" %>
+         <br/>
+         <%= f.text_area :message, cols: "40", rows: "10"  %>
+      </div>
+      <div class="form-element">
          <%= image_submit_tag "submit.png" %>
          <%= link_to image_tag("cancel.png"), groups_path, class:"cancel" %>
       </div>
