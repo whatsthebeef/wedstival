@@ -1,6 +1,6 @@
 class RequestsController < ApplicationController
    layout "base_layout", except: :index
-   before_filter :authenticate, except: :new 
+   before_filter :authenticate, only: :index  
 
    def index
       @requests = Request.all
