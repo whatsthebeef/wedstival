@@ -15,11 +15,15 @@
          hinaLeftStep1: "<%= asset_path 'hina_left_step_1.png' %>",
          hinaLeftStep2: "<%= asset_path 'hina_left_step_2.png' %>",
          hinaArmRight: "<%= asset_path 'hina_arm_right.png' %>",
-         hinaArmLeft: "<%= asset_path 'hina_arm_left.png' %>"
+         hinaArmLeft: "<%= asset_path 'hina_arm_left.png' %>",
+         peckingChickenRight: "<%= asset_path 'pecking_chicken_right.png' %>",
       };
 
-      var hina = new Hina(0, window.innerHeight-400, 300, 400, 1);
-      var pictures = [hina];
+      var hina = new Hina(-500, window.innerHeight-400, 300, 400, 1);
+      var runningChicken1 = new RunningChicken(-750, window.innerHeight-80, 80, 80, 5);
+      var runningChicken2 = new RunningChicken(-850, window.innerHeight-80, 80, 80, 5);
+      var runningChicken3 = new RunningChicken(-950, window.innerHeight-80, 80, 80, 5);
+      var pictures = [hina, runningChicken1, runningChicken2, runningChicken3];
 
       // title
       canvas(sources, "404-canvas", window.innerWidth, window.innerHeight, pictures);

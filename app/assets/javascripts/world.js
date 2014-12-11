@@ -528,6 +528,28 @@ var FlyingFlower =  Pictures.extend({
 
 });
 
+var RunningChicken = Pictures.extend({
+   init : function(x, y, width, height, velocity) {
+      this._super("peckingChickenRight", x, y, width, height, 0);
+      this.chickenRight = this.image;
+      this.chickenLeft = "peckingChickenLeft";
+      this.counter = 0;
+      this.velocity = velocity;
+   },
+   draw : function(painter) {
+      this.counter++;
+      if(this.velocity > 0) {
+         this.image = this.chickenRight;
+      }
+      else {
+         this.image = this.chickenLeft;
+      }
+      this.dx = this.velocity ? (this.counter*this.velocity) : this.dx; 
+      this.dy = Math.sin(this.counter*generatePosition(190, 210))*3;
+      painter.drawPicture(this);
+   }
+});
+
 
 
 
