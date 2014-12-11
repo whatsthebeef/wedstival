@@ -10,11 +10,7 @@
    </p>
    <p>
    <% if group.has_submitted %>
-      <% if group.just_one %>
-         <%= group.whose_coming %> is coming. 
-      <% else %>
-         <%= group.whose_coming %> are coming. 
-      <% end %>
+      <%= group.whose_coming %> 
       <% if group.message.blank? %>
          A message wasn't left 
       <% else %>

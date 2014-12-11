@@ -40,7 +40,12 @@ class Group < ActiveRecord::Base
    end
 
    def whose_coming
-      guests.select {|g| g.is_coming}.map {|g| g.name}.to_sentence
+      count = 0
+      coming = guests.select {|g| g.is_coming}.map { |g| 
+         count = count + 1
+         g.name
+      }.to_sentence
+      %{#{coming == "" ? "No one " : "#{coming} "} #{count > 1 ? "are" : " is"} coming.}
    end
 
    def all_guests

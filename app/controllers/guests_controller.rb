@@ -1,5 +1,5 @@
 class GuestsController < ApplicationController
-   before_filter :find_group, only: [:new, :create]  
+   before_filter :find_group, only: [:new, :create, :destroy]  
    before_filter :authenticate 
 
    def new
@@ -19,7 +19,7 @@ class GuestsController < ApplicationController
    def destroy
       @guest = Guest.find(params[:id])
       @guest.delete unless @guest.nil?
-      redirect_to groups_path
+      redirect_to @group
    end
 
    private 
