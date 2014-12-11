@@ -545,7 +545,7 @@ var RunningChicken = Pictures.extend({
          this.image = this.chickenLeft;
       }
       this.dx = this.velocity ? (this.counter*this.velocity) : this.dx; 
-      this.dy = Math.sin(this.counter*generatePosition(190, 210))*3;
+      this.dy = Math.sin(this.counter*generatePosition(0.75, 1))*3;
       painter.drawPicture(this);
    }
 });
