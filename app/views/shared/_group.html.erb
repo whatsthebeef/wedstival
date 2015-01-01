@@ -9,15 +9,19 @@
    <% end %>
    </p>
    <p>
-   <% if group.has_submitted %>
-      <%= group.whose_coming %> 
-      <% if group.message.blank? %>
-         A message wasn't left 
-      <% else %>
-         The message left said "<%= group.message %>"
+   <% if group.received_invite %>
+      <% if group.has_submitted %>
+         <%= group.whose_coming %> 
+         <% if group.message.blank? %>
+            A message wasn't left 
+         <% else %>
+            The message left said "<%= group.message %>"
+         <% end %>
+      <% elsif %>
+         The group hasn't submitted a response yet.
       <% end %>
-   <% elsif %>
-      The group hasn't submitted a response yet.
+   <% else %>
+      An invite hasn't been sent yet.
    <% end %>
    </p>
 </div>
