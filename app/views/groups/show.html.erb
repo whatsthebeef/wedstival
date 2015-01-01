@@ -1,4 +1,5 @@
 <div id="description">
+   <%= h flash[:notice] %>
    <div>
       <h3><%= @group.name %></h3>
    </div>
@@ -12,7 +13,9 @@
       This group doesn't have an email address. 
    <% end %>
    </p>
-   <%= render partial: "send_invite_button", locals: {group: @group} %>
+   <% unless @group.email.blank? %>
+      <%= render partial: "send_invite_button", locals: {group: @group} %>
+   <% end %>
    <div class="middle-btn-row">
       <%= link_to image_tag("edit.png"), edit_group_path(@group), { class: "cancel" } %>
       <%= button_to "", @group, method: :delete, class: "delete cancel" %>

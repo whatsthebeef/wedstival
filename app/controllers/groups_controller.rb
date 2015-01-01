@@ -50,8 +50,15 @@ class GroupsController < ApplicationController
    end
 
    def send_invite
-      @group.send_invite
-      redirect_to groups_path
+      begin
+         @group.send_invite
+         flash[:notice] = "Invite sent"
+         redirect_to groups_path
+      rescue Exception => e
+         puts "Caught exception #{e.message}!"
+         flash[:notice] = "There was a problem sending the invite, please try again in a few minutes and if the problem continues contact the administrator."
+         redirect_to @group
+      end
    end
 
    private 

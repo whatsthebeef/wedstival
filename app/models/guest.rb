@@ -15,7 +15,7 @@ class Guest  < ActiveRecord::Base
    end
 
    def self.num_coming
-      where(is_baby: true, is_coming: true).count
+      where(is_baby: false, is_coming: true).count
    end
 
    def self.num_max
