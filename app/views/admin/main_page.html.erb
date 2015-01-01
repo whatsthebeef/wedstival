@@ -11,6 +11,7 @@
       </p>
    </div> 
    <hr/>
+
    <h3>Numbers</h3>
    <div class="group">
       <p>
@@ -47,6 +48,11 @@
       <%= link_to "All groups", groups_path %>
       </p>
    </div> 
+   <hr/>
+
+   <h3>Invites</h3>
+   <%= link_to "Invites not sent", groups_path(received_invite: 0) %>
+
    <hr/>
    <h3>Recent responses</h3>
    <% @groups.each do |group| %>

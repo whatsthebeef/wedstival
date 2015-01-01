@@ -3,10 +3,12 @@ class GroupsController < ApplicationController
    before_filter :authenticate, except: [:rsvp, :update] 
 
    def index
-      if params[:has_submitted].blank?
-         @groups = Group.all
-      else
+      if !params[:has_submitted].blank?
          @groups = Group.where_has_submitted(params[:has_submitted])
+      elsif !params[:received_invite].blank?
+         @groups = Group.where_received_invite(params[:received_invite])
+      else
+         @groups = Group.all
       end
    end
 

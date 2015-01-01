@@ -60,6 +60,10 @@ class Group < ActiveRecord::Base
       where(has_submitted: true)
    end
 
+   def self.where_received_invite(received) 
+      where(received_invite:received == "1")
+   end
+
    def self.num_responded
       responded.count
    end
