@@ -13,7 +13,7 @@
          <%= f.text_field :email, placeholder:"Enter email to address" %><br />
       </div>
       <div class="form-element">
-         <%= f.label "Whose coming?" %>
+         <%= f.label "Who's coming?" %>
          <%= f.fields_for :guests do |ff| %>
             <div class="guest-coming">
                <%= ff.label "#{ff.object.name}" %> 
@@ -22,7 +22,7 @@
          <% end %>
       </div>
       <div class="form-element">
-         <%= f.label "Whose a baby?" %>
+         <%= f.label "Who's a baby?" %>
          <%= f.fields_for :guests do |ff| %>
             <div class="guest-coming">
                <%= ff.label "#{ff.object.name}" %> 
