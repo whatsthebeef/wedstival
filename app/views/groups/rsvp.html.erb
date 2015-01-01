@@ -1,9 +1,9 @@
 <div id="description">
    <h3>
-   This is the RSVP page for the <%= @group.name %> group
+   This is the RSVP page for John and Hina's wedding.
    </h3>
    <p>
-   Please let us know who is coming by filling out the details below.
+   Please let us know who is coming by the 15th of April 2015.
    If you run into difficulties or just want to tell us 
    something send an email to <%= Rails.application.config.email %>
    </p>
@@ -12,7 +12,8 @@
    </p>
    <%= form_for @group do |f| %>
       <div class="form-element">
-         Check the box next to the name of whoever is coming
+         Check the box next to the name of whoever is coming. If you leave a box 
+         unchecked we will assume that person isn't coming.
             <%= f.fields_for :guests do |ff| %>
             <p>
                   <%= "#{ff.object.name}" %> <%= ff.check_box(:is_coming) %> 
