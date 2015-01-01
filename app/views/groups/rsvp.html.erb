@@ -3,9 +3,12 @@
    This is the RSVP page for John and Hina's wedding.
    </h3>
    <p>
+   The wedding is on the 18th of July 2015 at 2pm.   
+   </p>
+   <p>
    Please let us know who is coming by the 15th of April 2015.
    If you run into difficulties or just want to tell us 
-   something send an email to <%= Rails.application.config.email %>
+   something send an email to <%= Rails.application.config.email %>.
    </p>
    <p>
    Visit the site to find out more by clicking <%= link_to "here", root_path %>
@@ -16,7 +19,7 @@
          unchecked we will assume that person isn't coming.
             <%= f.fields_for :guests do |ff| %>
             <p>
-                  <%= "#{ff.object.name}" %> <%= ff.check_box(:is_coming) %> 
+                <%= "#{ff.object.name}" %> <%= ff.check_box(:is_coming) %> 
             </p>
             <% end %>
          <%= hidden_field_tag "group[has_submitted]", true %>
