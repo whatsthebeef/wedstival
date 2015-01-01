@@ -10,6 +10,15 @@ module ApplicationHelper
    end
 
    def coming(model, count) 
-      %{#{count == 1 ? " #{count} #{model}" : " #{count} #{model.pluralize}"} coming} 
+      %{#{count == 1 ? " #{count} #{model}" : " #{count} #{model.pluralize}"} accepted invite so far} 
    end
+
+   def max(model, count) 
+      %{Maximum number of #{model.pluralize} is #{count}} 
+   end
+
+   def min(model, count) 
+      %{Minimum number of #{model.pluralize} is #{count}} 
+   end
+
 end

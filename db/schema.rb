@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141204192557) do
+ActiveRecord::Schema.define(version: 20150101154325) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,9 @@ ActiveRecord::Schema.define(version: 20141204192557) do
     t.string  "name"
     t.boolean "is_coming"
     t.integer "group_id"
+    t.boolean "is_baby"
+    t.boolean "is_not_going_to_accept"
+    t.boolean "is_not_going_to_accept_probably"
   end
 
   create_table "requests", force: true do |t|

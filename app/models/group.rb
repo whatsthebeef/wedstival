@@ -2,7 +2,7 @@ require 'zlib'
 class Group < ActiveRecord::Base
    before_validation :generate_code
 
-   has_many :guests, dependent: :delete_all
+   has_many :guests, dependent: :destroy
    accepts_nested_attributes_for :guests
 
    validates :name, presence: true

@@ -22,6 +22,33 @@
          <% end %>
       </div>
       <div class="form-element">
+         <%= f.label "Whose a baby?" %>
+         <%= f.fields_for :guests do |ff| %>
+            <div class="guest-coming">
+               <%= ff.label "#{ff.object.name}" %> 
+               <%= ff.check_box(:is_baby) %> 
+            </div>
+         <% end %>
+      </div>
+      <div class="form-element">
+         <%= f.label "Who will not accept?" %>
+         <%= f.fields_for :guests do |ff| %>
+            <div class="guest-coming">
+               <%= ff.label "#{ff.object.name}" %> 
+               <%= ff.check_box(:is_not_going_to_accept) %> 
+            </div>
+         <% end %>
+      </div>
+      <div class="form-element">
+         <%= f.label "Who will probably not accept?" %>
+         <%= f.fields_for :guests do |ff| %>
+            <div class="guest-coming">
+               <%= ff.label "#{ff.object.name}" %> 
+               <%= ff.check_box(:is_not_going_to_accept_probably) %> 
+            </div>
+         <% end %>
+      </div>
+      <div class="form-element">
          <%= f.label :has_submitted, "Has the group submitted a response" %>
          <%= f.check_box :has_submitted %>
       </div>

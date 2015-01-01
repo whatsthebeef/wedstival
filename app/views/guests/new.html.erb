@@ -16,6 +16,18 @@
             <%= f.text_field :name, placeholder:"Enter guest's name" %>
          </div>
          <div class="form-element">
+            <%= f.label "Is a baby" %> 
+            <%= f.check_box(:is_baby) %> 
+         </div>
+         <div class="form-element">
+            <%= f.label "Not going to accept" %> 
+            <%= f.check_box(:is_not_going_to_accept) %> 
+         </div>
+         <div class="form-element">
+            <%= f.label "Probably not going to accept" %> 
+            <%= f.check_box(:is_not_going_to_accept_probably) %> 
+         </div>
+         <div class="form-element">
             <%= image_submit_tag "submit.png" %>
             <%= link_to image_tag("cancel.png"), @group, {class:"cancel"} %>
          </div>

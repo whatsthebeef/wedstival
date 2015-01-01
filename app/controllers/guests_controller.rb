@@ -24,7 +24,8 @@ class GuestsController < ApplicationController
 
    private 
    def guest_params
-      params.require(:guest).permit(:name)
+      params.require(:guest).permit(:name, :is_baby, :is_not_going_to_accept, 
+                                    :is_not_going_to_accept_probably)
    end
 
    def find_group

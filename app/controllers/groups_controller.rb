@@ -39,7 +39,7 @@ class GroupsController < ApplicationController
    end
 
    def destroy
-      @group.delete
+      @group.destroy
       redirect_to groups_path
    end
 
@@ -58,6 +58,6 @@ class GroupsController < ApplicationController
    end
 
    def group_params
-      params.require(:group).permit(:name, :code, :email, :has_submitted, :message, guests_attributes:[:is_coming, :id])
+      params.require(:group).permit(:name, :code, :email, :has_submitted, :message, guests_attributes:[:is_coming, :id, :is_baby, :is_not_going_to_accept, :is_not_going_to_accept_probably])
    end
 end

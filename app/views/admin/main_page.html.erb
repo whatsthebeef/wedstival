@@ -23,13 +23,25 @@
          <%= link_to responded("group", Group.num_not_responded, true), groups_path(has_submitted: 0) %>
       </p>
       <p>
-         <%= count("guest", Guest.count) %>
+         <%= count("adult", Guest.count) %> invited 
       </p>
       <p>
-         <%= responded("guest", Group.num_guests_responded, false) %>
+         <%= count("baby", Guest.num_babies) %> invited 
       </p>
       <p>
-         <%= coming("guest", Guest.num_coming) %>
+         <%= max("adult", Guest.num_max) %>  
+      </p>
+      <p>
+         <%= min("adult", Guest.num_min) %>  
+      </p>
+      <p>
+         <%= responded("guests", Group.num_guests_responded, false) %>
+      </p>
+      <p>
+         <%= coming("adults", Guest.num_coming) %>
+      </p>
+      <p>
+         <%= coming("baby", Guest.num_babies_coming) %>
       </p>
       <p>
       <%= link_to "All groups", groups_path %>
