@@ -6,7 +6,11 @@
       <%= render partial: "shared/group", object: @group %>
    </div>
    <p>
-   The email address to contact the group is <%= @group.email %>
+   <% unless @group.email.blank? %>   
+      The email address to contact the group is <%= @group.email %>.
+   <% else %>
+      This group doesn't have an email address. 
+   <% end %>
    </p>
    <%= render partial: "send_invite_button", locals: {group: @group} %>
    <div class="middle-btn-row">
