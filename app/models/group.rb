@@ -9,7 +9,7 @@ class Group < ActiveRecord::Base
    validates :code, presence: true
    validates :name, uniqueness: true
    validates :code, uniqueness: true
-   validates :email, uniqueness: true
+   validates :email, uniqueness: true, allow_blank: true
 
    def generate_code 
       if code.blank?
