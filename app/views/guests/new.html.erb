@@ -5,8 +5,6 @@
    <p>
    Guests already in this group are <%= @group.guests.map{|g|g.name}.to_sentence %>
    </p>
-</div>
-<div>
    <% @guest.errors.full_messages.each do |msg| %>
       <p><%= msg %></p>
    <% end %>

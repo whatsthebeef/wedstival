@@ -7,8 +7,6 @@
       We need requests for the band and the DJ.
       They’ll be too busy with the ceilidh to put on good tunes otherwise
       </p>
-   </div>
-   <div>
       <%= form_for @request do |f| %>
          <%= h flash[:notice] %>
          <% @request.errors.full_messages.each do |msg| %>

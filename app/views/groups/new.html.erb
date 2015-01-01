@@ -2,8 +2,6 @@
    <p>
    Enter the details of a new group 
    </p>
-</div>
-<div>
    <%= form_for @group do |f| %>
       <% @group.errors.full_messages.each do |msg| %>
          <p><%= msg %></p>
