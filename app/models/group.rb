@@ -18,7 +18,7 @@ class Group < ActiveRecord::Base
    end
 
    def self.last_five 
-      where(has_submitted:true).limit(5).order("updated_at DESC").reverse
+      where(has_submitted:true).order("updated_at DESC").limit(5)
    end
 
    def send_invite
