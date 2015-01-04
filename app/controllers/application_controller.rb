@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
    end
 
    def authenticate
-      unless current_user
+      unless logged_in?
          flash[:notice] = "You must be logged in to access this page"
          redirect_to new_user_session_url
          return false
@@ -27,6 +27,10 @@ class ApplicationController < ActionController::Base
 
    def not_found
       raise ActionController::RoutingError.new('Not Found')
+   end
+
+   def logged_in?
+      !current_user.nil?
    end
 
 end

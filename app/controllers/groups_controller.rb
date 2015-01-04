@@ -26,14 +26,19 @@ class GroupsController < ApplicationController
    end
 
    def edit
+      session[:return_to] ||= request.referer
    end
 
    def update
       @group.update_attributes(group_params)
       if @group.save
-         redirect_to @group
+         if logged_in?
+            redirect_to groups_path
+         else
+            redirect_to root_path
+         end
       else 
-         render "new"
+         redirect_to session.delete(:return_to)
       end
    end
 
@@ -46,6 +51,7 @@ class GroupsController < ApplicationController
    end
 
    def rsvp
+      session[:return_to] ||= request.referer
       @group = Group.find_by_code(params[:code])
    end
 
