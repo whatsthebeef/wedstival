@@ -32,6 +32,7 @@ class GroupsController < ApplicationController
    def update
       @group.update_attributes(group_params)
       if @group.save
+         flash[:notice] = "Reply sent..."
          if logged_in?
             redirect_to groups_path
          else
