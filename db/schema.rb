@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150102002134) do
+ActiveRecord::Schema.define(version: 20150106103330) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 20150102002134) do
   create_table "groups", force: true do |t|
     t.string   "email"
     t.string   "name"
-    t.string   "message"
+    t.text     "message"
     t.boolean  "has_submitted",   default: false
     t.string   "code"
     t.boolean  "received_invite", default: false
