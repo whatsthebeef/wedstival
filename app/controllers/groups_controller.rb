@@ -1,6 +1,6 @@
 class GroupsController < ApplicationController
-   before_filter :find_group, only: [:edit, :update, :show, :send_invite, :destroy]  
-   before_filter :authenticate, except: [:rsvp, :update] 
+   before_action :find_group, only: [:edit, :update, :show, :send_invite, :destroy]  
+   before_action :authenticate, except: [:rsvp, :update] 
 
    def index
       if !params[:has_submitted].blank?

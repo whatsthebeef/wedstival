@@ -1,5 +1,5 @@
 class AdminController < ApplicationController
-   before_filter :authenticate
+   before_action :authenticate
 
    def main_page
       @groups = Group.last_five

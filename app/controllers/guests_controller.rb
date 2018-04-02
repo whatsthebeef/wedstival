@@ -1,6 +1,6 @@
 class GuestsController < ApplicationController
-   before_filter :find_group, only: [:new, :create, :destroy]  
-   before_filter :authenticate 
+   before_action :find_group, only: [:new, :create, :destroy]  
+   before_action :authenticate 
 
    def new
       @guest = Guest.new 
